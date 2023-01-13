@@ -3,23 +3,36 @@ package com.example.humantechnologyproject;
 public class Datos {
     private int imagen;
     private String titulo;
-    private String descripcion;
+    private String audio;
+    private int numButton;
+    private int edit_button;
 
-    public Datos(int imagen, String titulo, String descripcion) {
+
+    public Datos(int imagen, String titulo, String audio, int edit_button, int numButton) {
         this.imagen = imagen;
         this.titulo = titulo;
-        this.descripcion = descripcion;
+        this.audio = audio;
+        this.numButton = numButton;
+        this.edit_button = edit_button;
     }
 
     public String getTitulo() {
         return titulo;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getAudio() {
+        return audio;
     }
 
     public int getImagen() {
         return imagen;
+    }
+
+    public int getEdit_button() {
+        return edit_button;
+    }
+
+    public int getNumButton() {
+        return numButton;
     }
 }

@@ -38,12 +38,21 @@ public class Adaptador extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater mostrado = LayoutInflater.from(context);
         View elemento = mostrado.inflate(R.layout.elemento, viewGroup, false);
+
         ImageView imagen = elemento.findViewById(R.id.imagen);
         imagen.setImageResource(datos.get(i).getImagen());
+
         TextView titulo = elemento.findViewById(R.id.titulo);
         titulo.setText(datos.get(i).getTitulo());
-        TextView descripcion = elemento.findViewById(R.id.descripcion);
-        descripcion.setText(datos.get(i).getDescripcion());
+
+        TextView audio = elemento.findViewById(R.id.audio);
+        audio.setText(datos.get(i).getAudio());
+
+        TextView num_button = elemento.findViewById(R.id.num_button);
+        num_button.setText(datos.get(i).getNumButton());
+
+        ImageView edit_button = elemento.findViewById(R.id.edit_button);
+        edit_button.setImageResource(datos.get(i).getEdit_button());
         return elemento;
     }
 }
