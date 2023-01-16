@@ -1,5 +1,7 @@
 package com.example.humantechnologyproject;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -18,7 +20,10 @@ import com.example.humantechnologyproject.databinding.ActivityMainBinding;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -50,7 +55,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(binding.toolbar);
+        /*
+        ImageButton b1 = (ImageButton) findViewById(R.id.edit_button);
+        b1.setOnClickListener(this);
+        */
     }
+    /*
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.edit_button:
+
+                break;
+        }
+    }
+    */
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -73,5 +93,4 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }
