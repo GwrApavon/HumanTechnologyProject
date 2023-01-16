@@ -1,2 +1,28 @@
-# HumanTechnologyProject
- Shared Repository for Human Technology Project
+- **A1 pantalla inicial:**
+  - **Lista:**
+    - imagebutton funcion pulsar
+    - conectar con a2
+    - volcar datos del elemento a A2 (pantalla de configuracion)
+  - **Toolbar:**
+    - bluetooth
+      - Conectividad - comprobaciones
+    - settings
+      - modo oscuro
+      - tamaño letra
+      - ...
+    - add
+- **A2 pantalla configuracion:**
+  - **Campos interfaz:**
+    - acceso e implementacion recursos
+    - permisos
+    - bd (conexion internet?)
+   - **Desplegable avanzado**
+    - funciones interiores
+    - **Toolbar:**
+      - guardar
+      - atras
+ 
+ - **A3 pantalla notificacion:**
+  - **Interfaz pantalla:**
+    - acceso e implementacion recursos
+  - interfaz notificacion  
