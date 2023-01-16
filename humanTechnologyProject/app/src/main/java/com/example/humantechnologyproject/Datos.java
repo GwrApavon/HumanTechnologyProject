@@ -5,15 +5,15 @@ public class Datos {
     private String titulo;
     private String audio;
     private int numButton;
-    private int edit_button;
+    //private int edit_button;
 
 
-    public Datos(int imagen, String titulo, String audio, int edit_button, int numButton) {
+    public Datos(int imagen, String titulo, String audio, int numButton) {
         this.imagen = imagen;
         this.titulo = titulo;
         this.audio = audio;
         this.numButton = numButton;
-        this.edit_button = edit_button;
+        //this.edit_button = edit_button;
     }
 
     public String getTitulo() {
@@ -28,9 +28,7 @@ public class Datos {
         return imagen;
     }
 
-    public int getEdit_button() {
-        return edit_button;
-    }
+    //public int getEdit_button() {return edit_button;}
 
     public int getNumButton() {
         return numButton;

@@ -61,7 +61,8 @@
             android:layout_marginTop="55dp"
             android:layout_weight="1"
             android:contentDescription="@string/Edit_button"
-            tools:ignore="ImageContrastCheck,ImageContrastCheck" />
+            tools:ignore="ImageContrastCheck,ImageContrastCheck"
+            android:background="@drawable/edit_icon"/>
 
     </LinearLayout>
 </LinearLayout>

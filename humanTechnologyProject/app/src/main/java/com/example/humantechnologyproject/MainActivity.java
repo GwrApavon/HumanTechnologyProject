@@ -30,13 +30,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        datos.add(new Datos(R.drawable.ima1, "DONUTS", "El 157 características nuevas.", 1, R.drawable.edit_icon));
+        datos.add(new Datos(R.drawable.ima1, "DONUTS", "El 157 características nuevas.", 1));
 
-        datos.add(new Datos(R.drawable.ima2, "FROYO", "El 20 7 núcleo Linux 2.6.32.", 2, R.drawable.edit_icon));
+        datos.add(new Datos(R.drawable.ima2, "FROYO", "El 20 7 núcleo Linux 2.6.32.", 2));
 
-        datos.add(new Datos(R.drawable.ima3, "GINGERBREAD", "El 6 de 7basado.", 3, R.drawable.edit_icon));
+        datos.add(new Datos(R.drawable.ima3, "GINGERBREAD", "El 6 de 7basado.", 3));
 
-        datos.add(new Datos(R.drawable.ima4, "HONEYCOMB", "El 22 teléfonos Android.", 4, R.drawable.edit_icon));
+        datos.add(new Datos(R.drawable.ima4, "HONEYCOMB", "El 22 teléfonos Android.", 4));
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

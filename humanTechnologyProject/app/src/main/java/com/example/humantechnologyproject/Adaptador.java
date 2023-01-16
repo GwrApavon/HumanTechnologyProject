@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -49,10 +50,10 @@ public class Adaptador extends BaseAdapter {
         audio.setText(datos.get(i).getAudio());
 
         TextView num_button = elemento.findViewById(R.id.num_button);
-        num_button.setText(datos.get(i).getNumButton());
+        num_button.setText(String.valueOf(datos.get(i).getNumButton()));
 
-        ImageView edit_button = elemento.findViewById(R.id.edit_button);
-        edit_button.setImageResource(datos.get(i).getEdit_button());
+        //ImageButton edit_button = (ImageButton) elemento.findViewById(R.id.edit_button);
+        //edit_button.setImageResource(datos.get(i).getEdit_button());
         return elemento;
     }
 }
