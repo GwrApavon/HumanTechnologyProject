@@ -16,7 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.HumanTechnologyProject.PopupOverlay" />
+            app:popupTheme="@style/Theme.HumanTechnologyProject.PopupOverlay"
+        />
+        <menu xmlns:android= "http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            tools:context="com.example.humantechnologyproject.MainActivity">
+            <item
+                android:id = "@+id/action_settings"
+                android:orderinCategory = "100"
+                android:title = "Settings"
+                app:showAsAction = "never"/>
+        </menu>>
 
     </com.google.android.material.appbar.AppBarLayout>
 
