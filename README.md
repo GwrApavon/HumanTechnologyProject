@@ -16,11 +16,11 @@
     - acceso e implementacion recursos
     - permisos
     - bd (conexion internet?)
-   - **Desplegable avanzado**
+  - **Desplegable avanzado**
     - funciones interiores
-    - **Toolbar:**
-      - guardar
-      - atras
+  - **Toolbar:**
+    - guardar
+    - atras
  
  - **A3 pantalla notificacion:**
   - **Interfaz pantalla:**
