@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
         b1.setOnClickListener(this);
         */
     }
-    /*
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.edit_button:
+        /*
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()) {
+                case R.id.edit_button:
 
-                break;
+                    break;
         }
     }
     */

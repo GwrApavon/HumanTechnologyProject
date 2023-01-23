@@ -11,4 +11,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="Edit_button">edit_button</string>
     <string name="edit_image">edit_image</string>
+    <string name="action_add">Add</string>
+    <string name="action_bluetooth">Bluetooth</string>
 </resources>
