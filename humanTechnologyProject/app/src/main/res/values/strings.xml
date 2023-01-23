@@ -12,4 +12,6 @@
     <string name="Edit_button">edit_button</string>
     <string name="edit_image">edit_image</string>
     <string name="title_activity_main2">MainActivity2</string>
+    <string name="action_add">Add</string>
+    <string name="action_bluetooth">Bluetooth</string>
 </resources>

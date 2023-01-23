@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
          */
     }
+
 /*
     @Override
     public void onClick(View view) {
@@ -78,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
-
-
-
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
@@ -88,6 +86,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, MainActivity2.class);
                 startActivity(intent);
                 break;
+
+        /*
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()) {
+                case R.id.edit_button:
+
+                    break;
         }
     }
 */
