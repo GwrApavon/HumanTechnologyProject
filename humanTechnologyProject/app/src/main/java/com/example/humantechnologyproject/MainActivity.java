@@ -48,9 +48,12 @@ public class MainActivity extends AppCompatActivity {
         ListView lista = (ListView) findViewById(R.id.lista);
         Adaptador adaptador = new Adaptador(this, datos);
         lista.setAdapter(adaptador);
+
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
 
             }
         });
@@ -58,18 +61,38 @@ public class MainActivity extends AppCompatActivity {
         /*
         ImageButton b1 = (ImageButton) findViewById(R.id.edit_button);
         b1.setOnClickListener(this);
-        */
+
+
+        Button b1 = (Button) findViewById(R.id.button);
+        b1.setOnClickListener(this);
+
+         */
     }
-    /*
+/*
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.button:
+                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+
+
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.edit_button:
-
+                Intent intent = new Intent(this, MainActivity2.class);
+                startActivity(intent);
                 break;
         }
     }
-    */
+*/
+
+
 
 
     @Override
