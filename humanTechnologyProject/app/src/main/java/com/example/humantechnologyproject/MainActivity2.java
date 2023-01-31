@@ -15,8 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.navigation.NavController;
@@ -27,6 +30,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.humantechnologyproject.databinding.ActivityMain2Binding;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -55,6 +59,7 @@ public class MainActivity2 extends AppCompatActivity {
                 openGallery();
             }
         });
+        //Seleccionar audio:
 
         Button bAudio = (Button) findViewById(R.id.bAudio);
         bAudio = (Button) findViewById(R.id.bAudio);
@@ -62,6 +67,40 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takeAudio();
+            }
+        });
+        //Seleccionar boton:
+        Spinner sBoton = (Spinner) findViewById(R.id.sBoton);
+        ArrayList<String> coloresBoton = new ArrayList<>();
+        coloresBoton.add("Azul");
+        coloresBoton.add("Rojo");
+        coloresBoton.add("Amarillo");
+        coloresBoton.add("Verde");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
+        sBoton.setAdapter(adapter);
+        sBoton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String colorSeleccionado = (String) sBoton.getSelectedItem();
+                TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
+                rBoton.setText("El color seleccionado es: "+colorSeleccionado);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Opciones avanzadas:
+        Button bAvanzada = (Button) findViewById(R.id.bAvanzado);
+        bAvanzada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView tAudio = (TextView) findViewById(R.id.tiempoAudio);
+                tAudio.setVisibility(View.VISIBLE);
+                TextView tPantalla = (TextView) findViewById(R.id.tiempoPantalla);
+                tPantalla.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -109,8 +148,8 @@ public class MainActivity2 extends AppCompatActivity {
         i.setAction(Intent.ACTION_GET_CONTENT);
         i.setType("audio/*");
         startActivityForResult(i, PICK_AUDIO);
-    }
 
+    }
 }
 
 
