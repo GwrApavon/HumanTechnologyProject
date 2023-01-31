@@ -15,4 +15,9 @@
     <string name="action_add">Add</string>
     <string name="action_bluetooth">Bluetooth</string>
     <string name="instruccionesConfig">Rellene los siguientes campos para configurar su botón:</string>
+    <string name="instruccionTitulo">Escriba el título del botón:</string>
+    <string name="instruccionFoto">Pulse para seleccionar la imagen:</string>
+    <string name="instruccionAudio">Pulse para seleccionar el audio:</string>
+    <string name="noAudio">Sin audio seleccionado</string>
+
 </resources>

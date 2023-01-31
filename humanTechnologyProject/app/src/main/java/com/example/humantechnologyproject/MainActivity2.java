@@ -1,6 +1,7 @@
 package com.example.humantechnologyproject;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -14,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,13 +26,16 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.humantechnologyproject.databinding.ActivityMain2Binding;
 
+import java.io.File;
+
 public class MainActivity2 extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
-
+    private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
     Uri imageUri;
+    Uri audioUri;
     ImageView foto_gallery;
     private Object result;
 
@@ -41,9 +47,8 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-
+        //Seleccionar foto:
         foto_gallery = (ImageView)findViewById(R.id.addImagen);
-
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +56,17 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+        Button bAudio = (Button) findViewById(R.id.bAudio);
+        bAudio = (Button) findViewById(R.id.bAudio);
+        bAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeAudio();
+            }
+        });
     }
+
+//Seleccionar foto:
 //Visto: https://es.stackoverflow.com/questions/41707/cargar-una-imagen-desde-la-galeria-android
 //       https://stackoverflow.com/questions/71082372/startactivityforresult-is-deprecated-im-trying-to-update-my-code
     private void openGallery(){
@@ -69,7 +84,7 @@ public class MainActivity2 extends AppCompatActivity {
                 });
          */
     }
-
+//Seleccionar foto:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -77,7 +92,25 @@ public class MainActivity2 extends AppCompatActivity {
             imageUri = data.getData();
             foto_gallery.setImageURI(imageUri);
         }
+        else {
+            if(resultCode == RESULT_OK && requestCode == PICK_AUDIO) {
+                audioUri = data.getData();
+                String enlace = data.getDataString();
+
+                TextView rAudio = (TextView) findViewById(R.id.resultadoAudio);
+                rAudio.setText("Enlace: " + enlace);
+            }
+        }
     }
+
+    //https://stackoverflow.com/questions/16806905/android-which-implicit-intent-for-picking-audio-files
+    private void takeAudio(){
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        i.setType("audio/*");
+        startActivityForResult(i, PICK_AUDIO);
+    }
+
 }
 
 
