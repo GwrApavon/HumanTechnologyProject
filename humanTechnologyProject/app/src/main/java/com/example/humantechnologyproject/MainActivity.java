@@ -1,15 +1,21 @@
 package com.example.humantechnologyproject;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -29,6 +35,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int PERMISO_BLUETOOTH = 0;
+    private static final int PERMISO_BLUETOOTH_ADMIN = 0;
+    private static final int PERMISO_BLUETOOTH_CONNECT = 0;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     ArrayList<Datos> datos = new ArrayList<>();
@@ -54,52 +63,10 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, MainActivity2.class);
                 startActivity(intent);
-
             }
         });
         setSupportActionBar(binding.toolbar);
-        /*
-        ImageButton b1 = (ImageButton) findViewById(R.id.edit_button);
-        b1.setOnClickListener(this);
-
-
-        Button b1 = (Button) findViewById(R.id.button);
-        b1.setOnClickListener(this);
-
-         */
     }
-
-/*
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.button:
-                Intent intent = new Intent(getApplicationContext(), MainActivity2.class);
-                startActivity(intent);
-                break;
-        }
-    }
-    @Override
-    public void onClick(View view) {
-        switch(view.getId()) {
-            case R.id.edit_button:
-                Intent intent = new Intent(this, MainActivity2.class);
-                startActivity(intent);
-                break;
-
-        /*
-        @Override
-        public void onClick(View view) {
-            switch(view.getId()) {
-                case R.id.edit_button:
-
-                    break;
-        }
-    }
-*/
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,7 +86,57 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_add) {
+            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+            startActivity(intent);
+        }
+        if (id == R.id.action_bluetooth) {
+
+            pedirPermisosBluetooth();
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void pedirPermisosBluetooth() {
+        AlertDialog AD;
+        AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
+        ADBuilder.setMessage("Para escanear un producto es necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED){
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(
+                            MainActivity.this, new String[]{Manifest.permission.BLUETOOTH}, PERMISO_BLUETOOTH
+                    );
+                }
+            });
+        }
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_DENIED){
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(
+                            MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_ADMIN},PERMISO_BLUETOOTH_ADMIN
+                    );
+                }
+            });
+        }
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED){
+
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(
+                            MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT},PERMISO_BLUETOOTH_CONNECT
+                    );
+                }
+            });
+            }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 }
