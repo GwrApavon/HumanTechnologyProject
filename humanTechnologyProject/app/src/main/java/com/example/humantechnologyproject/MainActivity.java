@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private void pedirPermisosBluetooth() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
-        ADBuilder.setMessage("Para escanear un producto es necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+        ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
 
 
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED){
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
             });
+            AD = ADBuilder.create();
+            AD.show();
         }
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) == PackageManager.PERMISSION_DENIED){
             ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
@@ -120,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
             });
+            AD = ADBuilder.create();
+            AD.show();
         }
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED){
 
@@ -130,12 +134,90 @@ public class MainActivity extends AppCompatActivity {
                     );
                 }
             });
+            AD = ADBuilder.create();
+            AD.show();
             }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISO_BLUETOOTH) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
+                ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity.this, new String[]{Manifest.permission.BLUETOOTH}, PERMISO_BLUETOOTH
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+        if (requestCode == PERMISO_BLUETOOTH_ADMIN) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
+                ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, PERMISO_BLUETOOTH_ADMIN
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+        if (requestCode == PERMISO_BLUETOOTH_CONNECT) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+
+
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
+                ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PERMISO_BLUETOOTH_CONNECT
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
     }
 }
