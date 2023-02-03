@@ -1,6 +1,9 @@
 package com.example.humantechnologyproject;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +14,8 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
@@ -22,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -33,7 +39,10 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
-
+    private static final int PERMISO_READ_EXTERNAL_STORAGE = 0;
+    private static final int PERMISO_RECORD_AUDIO = 0;
+    private static final int PERMISO_WRITE_EXTERNAL_STORAGE = 0;
+    private static final int PERMISO_MANAGE_EXTERNAL_STORAGE = 0;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
     private static final int PICK_AUDIO = 1;
@@ -56,7 +65,7 @@ public class MainActivity2 extends AppCompatActivity {
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                permisosGaleria();
             }
         });
         //Seleccionar audio:
@@ -149,6 +158,129 @@ public class MainActivity2 extends AppCompatActivity {
         i.setType("audio/*");
         startActivityForResult(i, PICK_AUDIO);
 
+    }
+
+
+    public void permisosGaleria() {
+        AlertDialog AD;
+        AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+        ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(
+                            MainActivity2.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISO_READ_EXTERNAL_STORAGE
+                    );
+                }
+            });
+            AD = ADBuilder.create();
+            AD.show();
+
+            ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISO_WRITE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+
+            ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, PERMISO_MANAGE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISO_READ_EXTERNAL_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.BLUETOOTH}, PERMISO_READ_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+        if (requestCode == PERMISO_WRITE_EXTERNAL_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISO_WRITE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+        if (requestCode == PERMISO_MANAGE_EXTERNAL_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, PERMISO_MANAGE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
     }
 }
 
