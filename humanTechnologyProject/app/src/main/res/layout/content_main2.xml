@@ -19,70 +19,40 @@
 
     <ImageView
         android:id="@+id/addImagen"
-        android:layout_width="107dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="268dp"
-        android:layout_marginTop="240dp"
+        android:layout_width="124dp"
+        android:layout_height="112dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginTop="152dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_add" />
 
     <TextView
-        android:id="@+id/instruccionAudio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="392dp"
-        android:text="@string/instruccionAudio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/resultadoAudio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="448dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="296dp"
         android:text="@string/noAudio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/bAudio"
-        android:layout_width="110dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="268dp"
-        android:layout_marginTop="372dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/instruccionFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="280dp"
-        android:text="@string/instruccionFoto"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/instruccionTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="176dp"
-        android:text="@string/instruccionTitulo"
+        android:layout_width="126dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="268dp"
+        android:text="@string/botonAudio"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/enterTitulo"
-        android:layout_width="171dp"
+        android:layout_width="206dp"
         android:layout_height="48dp"
-        android:layout_marginStart="224dp"
-        android:layout_marginTop="164dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="152dp"
         android:ems="10"
         android:hint="Título..."
         android:inputType="textPersonName"
@@ -91,10 +61,10 @@
 
     <Spinner
         android:id="@+id/sBoton"
-        android:layout_width="148dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="496dp"
+        android:layout_width="206dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="212dp"
         android:prompt="@string/seleccionBoton"
         android:spinnerMode="dialog"
         app:layout_constraintStart_toStartOf="parent"
@@ -104,19 +74,19 @@
         android:id="@+id/resultadoBoton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="508dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="332dp"
         android:text="@string/noBoton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/bAvanzado"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="556dp"
-        android:text="Button"
+        android:layout_width="126dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="332dp"
+        android:text="@string/OpcionesAvanzadas"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,8 +94,8 @@
         android:id="@+id/tiempoPantalla"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="616dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="408dp"
         android:ems="10"
         android:hint="Duración del audio:"
         android:inputType="number"
@@ -138,8 +108,8 @@
         android:id="@+id/tiempoAudio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="680dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="460dp"
         android:ems="10"
         android:hint="Duración de alarma:"
         android:inputType="number"

@@ -22,5 +22,8 @@
     <string name="seleccionBoton">Seleccione un color:</string>
     <string name="noBoton">Sin boton seleccionado</string>
     <string name="back">back</string>
+    <string name="botonAudio">SELECCIÓN DE AUDIO</string>
+    <string name="OpcionesAvanzadas">OPCIONES AVANZADAS</string>
+
 
 </resources>

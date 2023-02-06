@@ -28,8 +28,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -41,14 +43,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
-    private static final int PERMISO_READ_EXTERNAL_STORAGE = 0;
-    private static final int PERMISO_RECORD_AUDIO = 0;
-    private static final int PERMISO_WRITE_EXTERNAL_STORAGE = 0;
-    private static final int PERMISO_MANAGE_EXTERNAL_STORAGE = 0;
+    private boolean esStorage = true;
+    private static final int CODIGO_PERMISOS_ALMACENAMIENTO = 1;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
     private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
+
     Uri imageUri;
     Uri audioUri;
     ImageView foto_gallery;
@@ -67,7 +68,7 @@ public class MainActivity2 extends AppCompatActivity {
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                permisosGaleria();
+                pedirPermisosStorage();
             }
         });
         //Seleccionar audio:
@@ -77,7 +78,8 @@ public class MainActivity2 extends AppCompatActivity {
         bAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takeAudio();
+                esStorage = false;
+                pedirPermisosStorage();
             }
         });
         //Seleccionar boton:
@@ -168,120 +170,51 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
-
-    public void permisosGaleria() {
+    private void pedirPermisosStorage() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
-        ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+        ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
 
 
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
             ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCompat.requestPermissions(
-                            MainActivity2.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISO_READ_EXTERNAL_STORAGE
+                            MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODIGO_PERMISOS_ALMACENAMIENTO
                     );
                 }
             });
             AD = ADBuilder.create();
             AD.show();
-
-            ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(
-                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISO_WRITE_EXTERNAL_STORAGE
-                        );
-                    }
-                });
-                AD = ADBuilder.create();
-                AD.show();
-            }
-
-            ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
-                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(
-                                MainActivity2.this, new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, PERMISO_MANAGE_EXTERNAL_STORAGE
-                        );
-                    }
-                });
-                AD = ADBuilder.create();
-                AD.show();
-            }
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISO_READ_EXTERNAL_STORAGE) {
+        if (requestCode == CODIGO_PERMISOS_ALMACENAMIENTO) {
             /* Resultado de la solicitud para permiso de cámara
              Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
              'grantResults' devolverá null.*/
 
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery();
-            } else {
-                AlertDialog AD;
-                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
-                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
-
-                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(
-                                MainActivity2.this, new String[]{Manifest.permission.BLUETOOTH}, PERMISO_READ_EXTERNAL_STORAGE
-                        );
-                    }
-                });
-                AD = ADBuilder.create();
-                AD.show();
-            }
-        }
-        if (requestCode == PERMISO_WRITE_EXTERNAL_STORAGE) {
-            /* Resultado de la solicitud para permiso de cámara
-             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
-             'grantResults' devolverá null.*/
-
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery();
-            } else {
-                AlertDialog AD;
-                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
-                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen");
-
-                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(
-                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISO_WRITE_EXTERNAL_STORAGE
-                        );
-                    }
-                });
-                AD = ADBuilder.create();
-                AD.show();
-            }
-        }
-        if (requestCode == PERMISO_MANAGE_EXTERNAL_STORAGE) {
-            /* Resultado de la solicitud para permiso de cámara
-             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
-             'grantResults' devolverá null.*/
-
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery();
+                if(esStorage) {
+                    openGallery();
+                }
+                else {
+                    takeAudio();
+                }
 
             } else {
                 AlertDialog AD;
                 AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
-                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen");
+                ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
 
                 ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(
-                                MainActivity2.this, new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, PERMISO_MANAGE_EXTERNAL_STORAGE
+                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODIGO_PERMISOS_ALMACENAMIENTO
                         );
                     }
                 });
@@ -290,6 +223,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -313,6 +247,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
 
 
