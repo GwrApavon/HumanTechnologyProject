@@ -1,6 +1,9 @@
 package com.example.humantechnologyproject;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,14 +14,20 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,9 +36,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.humantechnologyproject.databinding.ActivityMain2Binding;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
-
+    private static final int PERMISO_READ_EXTERNAL_STORAGE = 0;
+    private static final int PERMISO_RECORD_AUDIO = 0;
+    private static final int PERMISO_WRITE_EXTERNAL_STORAGE = 0;
+    private static final int PERMISO_MANAGE_EXTERNAL_STORAGE = 0;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
     private static final int PICK_AUDIO = 1;
@@ -52,9 +65,10 @@ public class MainActivity2 extends AppCompatActivity {
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                permisosGaleria();
             }
         });
+        //Seleccionar audio:
 
         Button bAudio = (Button) findViewById(R.id.bAudio);
         bAudio = (Button) findViewById(R.id.bAudio);
@@ -62,6 +76,40 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 takeAudio();
+            }
+        });
+        //Seleccionar boton:
+        Spinner sBoton = (Spinner) findViewById(R.id.sBoton);
+        ArrayList<String> coloresBoton = new ArrayList<>();
+        coloresBoton.add("Azul");
+        coloresBoton.add("Rojo");
+        coloresBoton.add("Amarillo");
+        coloresBoton.add("Verde");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
+        sBoton.setAdapter(adapter);
+        sBoton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String colorSeleccionado = (String) sBoton.getSelectedItem();
+                TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
+                rBoton.setText("El color seleccionado es: "+colorSeleccionado);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        //Opciones avanzadas:
+        Button bAvanzada = (Button) findViewById(R.id.bAvanzado);
+        bAvanzada.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView tAudio = (TextView) findViewById(R.id.tiempoAudio);
+                tAudio.setVisibility(View.VISIBLE);
+                TextView tPantalla = (TextView) findViewById(R.id.tiempoPantalla);
+                tPantalla.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -109,8 +157,131 @@ public class MainActivity2 extends AppCompatActivity {
         i.setAction(Intent.ACTION_GET_CONTENT);
         i.setType("audio/*");
         startActivityForResult(i, PICK_AUDIO);
+
     }
 
+
+    public void permisosGaleria() {
+        AlertDialog AD;
+        AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+        ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+
+
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(
+                            MainActivity2.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISO_READ_EXTERNAL_STORAGE
+                    );
+                }
+            });
+            AD = ADBuilder.create();
+            AD.show();
+
+            ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISO_WRITE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+
+            ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, PERMISO_MANAGE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISO_READ_EXTERNAL_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen.");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.BLUETOOTH}, PERMISO_READ_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+        if (requestCode == PERMISO_WRITE_EXTERNAL_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISO_WRITE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+        if (requestCode == PERMISO_MANAGE_EXTERNAL_STORAGE) {
+            /* Resultado de la solicitud para permiso de cámara
+             Si la solicitud es cancelada por el usuario, el método .lenght sobre el array
+             'grantResults' devolverá null.*/
+
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery();
+
+            } else {
+                AlertDialog AD;
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                ADBuilder.setMessage("Es necesario que des permisos de acceso a la galería para añadir una imagen");
+
+                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(
+                                MainActivity2.this, new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, PERMISO_MANAGE_EXTERNAL_STORAGE
+                        );
+                    }
+                });
+                AD = ADBuilder.create();
+                AD.show();
+            }
+        }
+    }
 }
 
 
