@@ -21,5 +21,6 @@
     <string name="noAudio">Sin audio seleccionado</string>
     <string name="seleccionBoton">Seleccione un color:</string>
     <string name="noBoton">Sin boton seleccionado</string>
+    <string name="back">back</string>
 
 </resources>

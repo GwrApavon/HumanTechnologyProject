@@ -64,13 +64,13 @@
                     tools:ignore="ImageContrastCheck,ImageContrastCheck"
                     android:background="@drawable/edit_icon"/>-->
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginTop="55dp"
-                    app:srcCompat="@drawable/edit_icon" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="70dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/edit_icon" />
 
-            </LinearLayout>
+    </LinearLayout>
         </LinearLayout>

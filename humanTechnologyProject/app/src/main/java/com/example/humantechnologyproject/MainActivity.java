@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISO_BLUETOOTH_CONNECT = 0;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    ArrayList<Datos> datos = new ArrayList<>();
+    public static ArrayList<Datos> datos = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -219,5 +220,9 @@ public class MainActivity extends AppCompatActivity {
                 AD.show();
             }
         }
+    }
+
+    public static void insertarDatos(Drawable imagen, String titulo, String audio, int numButton){
+       //datos.add(imagen, titulo, audio, numButton);
     }
 }
