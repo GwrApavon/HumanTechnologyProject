@@ -53,6 +53,8 @@ public class MainActivity2 extends AppCompatActivity {
     Uri imageUri;
     Uri audioUri;
     ImageView foto_gallery;
+    ImageView audioButton;
+
     private Object result;
 
     @Override
@@ -71,14 +73,11 @@ public class MainActivity2 extends AppCompatActivity {
                 pedirPermisosStorage();
             }
         });
-        //Seleccionar audio:
-
-        Button bAudio = (Button) findViewById(R.id.bAudio);
-        bAudio = (Button) findViewById(R.id.bAudio);
-        bAudio.setOnClickListener(new View.OnClickListener() {
+        //Seleccionar audio2:
+        audioButton = (ImageView)findViewById(R.id.ivAudio);
+        audioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                esStorage = false;
                 pedirPermisosStorage();
             }
         });

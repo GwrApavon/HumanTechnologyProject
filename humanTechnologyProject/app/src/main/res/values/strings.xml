@@ -24,6 +24,7 @@
     <string name="back">back</string>
     <string name="botonAudio">SELECCIÓN DE AUDIO</string>
     <string name="OpcionesAvanzadas">OPCIONES AVANZADAS</string>
+    <string name="recuerde">¡Recuerde! Pulse el botón superior derecho para guardar su botón.</string>
 
 
 </resources>
