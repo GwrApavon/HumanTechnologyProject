@@ -43,12 +43,12 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
-    private boolean esStorage = true;
     private static final int CODIGO_PERMISOS_ALMACENAMIENTO = 1;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
     private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
+    boolean permisosDados = false;
 
     Uri imageUri;
     Uri audioUri;
@@ -65,12 +65,16 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
+        pedirPermisosStorage();
         //Seleccionar foto:
         foto_gallery = (ImageView)findViewById(R.id.addImagen);
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pedirPermisosStorage();
+
+                if(verificarPermisos()) {
+                    openGallery();
+                }
             }
         });
         //Seleccionar audio2:
@@ -78,7 +82,9 @@ public class MainActivity2 extends AppCompatActivity {
         audioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pedirPermisosStorage();
+                if(verificarPermisos()) {
+                    takeAudio();
+                }
             }
         });
         //Seleccionar boton:
@@ -152,10 +158,12 @@ public class MainActivity2 extends AppCompatActivity {
         else {
             if(resultCode == RESULT_OK && requestCode == PICK_AUDIO) {
                 audioUri = data.getData();
-                String enlace = data.getDataString();
-
+                String enlace = "";
+                enlace = data.getDataString();
                 TextView rAudio = (TextView) findViewById(R.id.resultadoAudio);
-                rAudio.setText("Enlace: " + enlace);
+                if(!enlace.equals("")) {
+                    rAudio.setText("Audio seleccionado");
+                }
             }
         }
     }
@@ -172,7 +180,7 @@ public class MainActivity2 extends AppCompatActivity {
     private void pedirPermisosStorage() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
-        ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+        ADBuilder.setMessage("Permite que 'SerrAlertas' pueda acceder al almacenamiento.");
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -198,17 +206,12 @@ public class MainActivity2 extends AppCompatActivity {
              'grantResults' devolverá null.*/
 
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if(esStorage) {
-                    openGallery();
-                }
-                else {
-                    takeAudio();
-                }
+                permisosDados = true;
 
             } else {
                 AlertDialog AD;
                 AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
-                ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+                ADBuilder.setMessage("Permite que 'SerrAlertas' pueda acceder al almacenamiento");
 
                 ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -222,6 +225,17 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }
     }
+    private boolean verificarPermisos() {
+        int estadoDePermiso = ContextCompat.checkSelfPermission(MainActivity2.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+            // En caso de que haya dado permisos ponemos la bandera en true
+            // y llamar al método
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
