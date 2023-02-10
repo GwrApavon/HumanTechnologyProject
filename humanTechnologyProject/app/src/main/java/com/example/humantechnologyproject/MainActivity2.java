@@ -4,16 +4,9 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,21 +18,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.humantechnologyproject.databinding.ActivityMain2Binding;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
@@ -49,6 +38,8 @@ public class MainActivity2 extends AppCompatActivity {
     private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
     boolean permisosDados = false;
+
+    EditText EditTitle;
 
     Uri imageUri;
     Uri audioUri;
@@ -67,7 +58,7 @@ public class MainActivity2 extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         pedirPermisosStorage();
         //Seleccionar foto:
-        foto_gallery = (ImageView)findViewById(R.id.addImagen);
+        foto_gallery = (ImageView)findViewById(R.id.addImage);
         foto_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +69,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
         //Seleccionar audio2:
-        audioButton = (ImageView)findViewById(R.id.ivAudio);
+        audioButton = (ImageView)findViewById(R.id.idAudio);
         audioButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +79,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
         //Seleccionar boton:
-        Spinner sBoton = (Spinner) findViewById(R.id.sBoton);
+        Spinner sBoton = (Spinner) findViewById(R.id.buttonColor);
         ArrayList<String> coloresBoton = new ArrayList<>();
         coloresBoton.add("Azul");
         coloresBoton.add("Rojo");
@@ -115,9 +106,9 @@ public class MainActivity2 extends AppCompatActivity {
         bAvanzada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView tAudio = (TextView) findViewById(R.id.tiempoAudio);
+                TextView tAudio = (TextView) findViewById(R.id.AudioTime);
                 tAudio.setVisibility(View.VISIBLE);
-                TextView tPantalla = (TextView) findViewById(R.id.tiempoPantalla);
+                TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
                 tPantalla.setVisibility(View.VISIBLE);
             }
         });

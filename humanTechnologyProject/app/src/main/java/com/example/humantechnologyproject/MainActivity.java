@@ -4,11 +4,14 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
+import com.example.humantechnologyproject.db.DBHelper;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -66,6 +70,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(binding.toolbar);
+
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        if (db != null){
+            Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
     @Override
