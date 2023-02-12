@@ -22,12 +22,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.humantechnologyproject.databinding.ActivityMain2Binding;
+import com.example.humantechnologyproject.db.DBButtons;
 
 import java.util.ArrayList;
 
@@ -39,12 +41,12 @@ public class MainActivity2 extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     boolean permisosDados = false;
 
-    EditText EditTitle;
+    EditText enterTitle, ScreenTime, AudioTime;
+    ImageView addImage, idAudio;
+    Spinner buttonColor;
 
     Uri imageUri;
     Uri audioUri;
-    ImageView foto_gallery;
-    ImageView audioButton;
 
     private Object result;
 
@@ -52,14 +54,23 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        enterTitle = findViewById(R.id.enterTitle);
+        ScreenTime = findViewById(R.id.ScreenTime);
+        AudioTime = findViewById(R.id.AudioTime);
+        addImage = findViewById(R.id.addImage);
+        idAudio = findViewById(R.id.idAudio);
+        buttonColor = findViewById(R.id.buttonColor);
+
+
+
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
         pedirPermisosStorage();
         //Seleccionar foto:
-        foto_gallery = (ImageView)findViewById(R.id.addImage);
-        foto_gallery.setOnClickListener(new View.OnClickListener() {
+        addImage = findViewById(R.id.addImage);
+        addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -69,28 +80,28 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
         //Seleccionar audio2:
-        audioButton = (ImageView)findViewById(R.id.idAudio);
-        audioButton.setOnClickListener(new View.OnClickListener() {
+        idAudio = findViewById(R.id.idAudio);
+        idAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(verificarPermisos()) {
-                    takeAudio();
+                    SelectAudio();
                 }
             }
         });
         //Seleccionar boton:
-        Spinner sBoton = (Spinner) findViewById(R.id.buttonColor);
+        Spinner buttonColor = (Spinner) findViewById(R.id.buttonColor);
         ArrayList<String> coloresBoton = new ArrayList<>();
         coloresBoton.add("Azul");
         coloresBoton.add("Rojo");
         coloresBoton.add("Amarillo");
         coloresBoton.add("Verde");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
-        sBoton.setAdapter(adapter);
-        sBoton.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        buttonColor.setAdapter(adapter);
+        buttonColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String colorSeleccionado = (String) sBoton.getSelectedItem();
+                String colorSeleccionado = (String) buttonColor.getSelectedItem();
                 TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
                 rBoton.setText("El color seleccionado es: "+colorSeleccionado);
             }
@@ -138,13 +149,13 @@ public class MainActivity2 extends AppCompatActivity {
                 });
          */
     }
-//Seleccionar foto:
+    //Seleccionar foto:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
-            foto_gallery.setImageURI(imageUri);
+            addImage.setImageURI(imageUri);
         }
         else {
             if(resultCode == RESULT_OK && requestCode == PICK_AUDIO) {
@@ -160,7 +171,7 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
     //https://stackoverflow.com/questions/16806905/android-which-implicit-intent-for-picking-audio-files
-    private void takeAudio(){
+    private void SelectAudio(){
         Intent i = new Intent();
         i.setAction(Intent.ACTION_GET_CONTENT);
         i.setType("audio/*");
@@ -234,6 +245,7 @@ public class MainActivity2 extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_a2, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -247,11 +259,37 @@ public class MainActivity2 extends AppCompatActivity {
         }
         //Adds a new Button to the DB
         if (id == R.id.save) {
-            //MainActivity.insertarDatos();
+            /*
+            DBButtons dbButtons = new DBButtons(this);
+            long id = dbButtons.insertarBoton(enterTitle.getText().toString(),
+                                    addImage.gettoString(),
+                                    idAudio.toString(),
+                                    buttonColor.toString(),
+                                    ScreenTime.getText().toString(),
+                                    AudioTime.getText().toString());
+            
+            if (id > 0){
+                Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
+                FieldCleaner();
+            }
+            else{
+                Toast.makeText(this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_SHORT).show();
+                FieldCleaner();
+            }*/
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
-
+    /*
+    private void FieldCleaner(){
+        enterTitle.setText("");
+        ScreenTime.setText("");
+        AudioTime.setText("");
+        addImage.set;
+        idAudio.set;
+        buttonColor.set;
+    }
+    */
 }
 
 

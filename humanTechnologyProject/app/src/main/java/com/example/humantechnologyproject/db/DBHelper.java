@@ -3,6 +3,8 @@ package com.example.humantechnologyproject.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import androidx.annotation.Nullable;
 

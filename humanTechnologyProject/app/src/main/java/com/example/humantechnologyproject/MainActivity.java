@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
@@ -80,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
         else{
             Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_SHORT).show();
         }
-
 
     }
 
