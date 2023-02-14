@@ -2,9 +2,14 @@ package com.example.humantechnologyproject.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
+
+import com.example.humantechnologyproject.Datos;
+
+import java.util.ArrayList;
 
 
 public class DBButtons extends DBHelper{
@@ -37,6 +42,34 @@ public class DBButtons extends DBHelper{
         }
         return idnt;
     }
+
+    public ArrayList<Datos> mostrarBotones() {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ArrayList<Datos> listaBotones = new ArrayList<>();
+        Datos boton;
+        Cursor cursorBotones;
+
+        cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " ORDER BY nombre ASC", null);
+
+        if (cursorBotones.moveToFirst()) {
+            do {
+                boton = new Datos();
+                boton.setImagen(cursorBotones.getString(3));
+                boton.setTitulo(cursorBotones.getString(2));
+                boton.setAudio(cursorBotones.getString(4));
+                boton.setColor(cursorBotones.getString(5));
+                listaBotones.add(boton);
+            } while (cursorBotones.moveToNext());
+        }
+
+        cursorBotones.close();
+
+        return listaBotones;
+    }
+
 
 
 }

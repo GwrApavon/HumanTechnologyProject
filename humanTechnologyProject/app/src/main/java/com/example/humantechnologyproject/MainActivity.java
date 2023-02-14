@@ -11,6 +11,7 @@ import android.media.Image;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
+import com.example.humantechnologyproject.db.DBButtons;
 import com.example.humantechnologyproject.db.DBHelper;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /*
         datos.add(new Datos(R.drawable.ima1, "DONUTS", "El 157 características nuevas.", 1));
 
         datos.add(new Datos(R.drawable.ima2, "FROYO", "El 20 7 núcleo Linux 2.6.32.", 2));
@@ -56,11 +58,16 @@ public class MainActivity extends AppCompatActivity {
         datos.add(new Datos(R.drawable.ima3, "GINGERBREAD", "El 6 de 7basado.", 3));
 
         datos.add(new Datos(R.drawable.ima4, "HONEYCOMB", "El 22 teléfonos Android.", 4));
+       */
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ListView lista = (ListView) findViewById(R.id.lista);
-        Adaptador adaptador = new Adaptador(this, datos);
+
+        DBButtons dbButtons = new DBButtons(MainActivity.this);
+        Adaptador adaptador = new Adaptador(this, dbButtons.mostrarBotones());
         lista.setAdapter(adaptador);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
