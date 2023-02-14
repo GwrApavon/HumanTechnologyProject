@@ -80,7 +80,8 @@ public class Adaptador extends BaseAdapter {
             File file = new File(datos.get(i).getImagen());
             Uri uri = Uri.fromFile(file);
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.context.getContentResolver(), uri);
-            imagen.setImageBitmap(getImageView((Bitmap)(getResizedBitmap(bitmap, 1024))));
+            imagen.setImageBitmap(getImageView((Bitmap) getResizedBitmap(bitmap, 1024)));
+
 
         }catch(IOException e) {
             e.printStackTrace();

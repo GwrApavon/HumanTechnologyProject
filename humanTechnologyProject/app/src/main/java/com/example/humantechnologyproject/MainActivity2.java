@@ -48,6 +48,15 @@ public class MainActivity2 extends AppCompatActivity {
     Uri imageUri;
     Uri audioUri;
 
+    //valores para crear el boton:
+    int id = 0;
+    String imagePath = "";
+    String audioPath = "";
+    String color = "";
+    String titulo = "";
+    int screentime = 0;
+    int soundtime = 0;
+
     private Object result;
 
     @Override
@@ -67,7 +76,7 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
-        pedirPermisosStorage();
+
         //Seleccionar foto:
         addImage = findViewById(R.id.addImage);
         addImage.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +85,9 @@ public class MainActivity2 extends AppCompatActivity {
 
                 if(verificarPermisos()) {
                     openGallery();
+                }
+                else {
+                    pedirPermisos();
                 }
             }
         });
@@ -86,6 +98,9 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 if(verificarPermisos()) {
                     SelectAudio();
+                }
+                else {
+                    pedirPermisos();
                 }
             }
         });
@@ -102,6 +117,7 @@ public class MainActivity2 extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String colorSeleccionado = (String) buttonColor.getSelectedItem();
+
                 TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
                 rBoton.setText("El color seleccionado es: "+colorSeleccionado);
             }
@@ -129,6 +145,8 @@ public class MainActivity2 extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+
     }
 
 //Seleccionar foto:
@@ -155,6 +173,7 @@ public class MainActivity2 extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
+            imagePath = data.getDataString();
             addImage.setImageURI(imageUri);
         }
         else {
@@ -162,6 +181,7 @@ public class MainActivity2 extends AppCompatActivity {
                 audioUri = data.getData();
                 String enlace = "";
                 enlace = data.getDataString();
+                audioPath = data.getDataString();
                 TextView rAudio = (TextView) findViewById(R.id.resultadoAudio);
                 if(!enlace.equals("")) {
                     rAudio.setText("Audio seleccionado");
@@ -179,7 +199,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
-    private void pedirPermisosStorage() {
+    private void pedirPermisos() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
         ADBuilder.setMessage("Permite que 'SerrAlertas' pueda acceder al almacenamiento.");
@@ -259,23 +279,40 @@ public class MainActivity2 extends AppCompatActivity {
         }
         //Adds a new Button to the DB
         if (id == R.id.save) {
-            /*
+            //Seleccionar titulo:
+
+            enterTitle = findViewById(R.id.enterTitle);
+            enterTitle.getText().toString();
+
+            buttonColor = findViewById(R.id.buttonColor);
+            color = buttonColor.getSelectedItem().toString();
+
+            ScreenTime = findViewById(R.id.ScreenTime);
+            screentime = Integer.parseInt(""+ScreenTime.getText());
+
+            AudioTime = findViewById(R.id.AudioTime);
+            soundtime = Integer.parseInt(""+AudioTime.getText());
+
+
             DBButtons dbButtons = new DBButtons(this);
-            long id = dbButtons.insertarBoton(enterTitle.getText().toString(),
-                                    addImage.gettoString(),
-                                    idAudio.toString(),
-                                    buttonColor.toString(),
-                                    ScreenTime.getText().toString(),
-                                    AudioTime.getText().toString());
+
+
+            long comprobacion = dbButtons.insertarBoton(2,
+                                    titulo,
+                                    imagePath,
+                                    audioPath,
+                    buttonColor.getSelectedItem().toString(),
+                                    screentime,
+                                    soundtime);
             
-            if (id > 0){
+            if (comprobacion > 0){
                 Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
-                FieldCleaner();
+                //FieldCleaner();
             }
             else{
                 Toast.makeText(this, "ERROR AL GUARDAR REGISTRO", Toast.LENGTH_SHORT).show();
-                FieldCleaner();
-            }*/
+                //FieldCleaner();
+            }
             finish();
         }
         return super.onOptionsItemSelected(item);

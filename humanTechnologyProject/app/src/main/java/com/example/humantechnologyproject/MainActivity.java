@@ -59,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
 
         datos.add(new Datos(R.drawable.ima4, "HONEYCOMB", "El 22 teléfonos Android.", 4));
        */
+        /*
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        if (db != null){
+            Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_SHORT).show();
+        }
+
+         */
 
 
 
@@ -78,16 +90,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(binding.toolbar);
-
-        DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        if (db != null){
-            Toast.makeText(this, "BASE DE DATOS CREADA", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(this, "ERROR AL CREAR LA BASE DE DATOS", Toast.LENGTH_SHORT).show();
-        }
 
     }
 

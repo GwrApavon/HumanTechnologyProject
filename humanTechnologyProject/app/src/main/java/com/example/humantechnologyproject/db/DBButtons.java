@@ -38,7 +38,7 @@ public class DBButtons extends DBHelper{
             values.put("tiempo_Sonido", tiempo_Sonido);
             idnt = db.insert(TABLE_BUTTONS, null, values);
         }catch (Exception ex){
-
+            ex.printStackTrace();
         }
         return idnt;
     }
@@ -52,7 +52,7 @@ public class DBButtons extends DBHelper{
         Datos boton;
         Cursor cursorBotones;
 
-        cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " ORDER BY nombre ASC", null);
+        cursorBotones = db.rawQuery("SELECT * FROM t_buttons", null);
 
         if (cursorBotones.moveToFirst()) {
             do {
