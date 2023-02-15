@@ -90,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setSupportActionBar(binding.toolbar);
-
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        //dbHelper.onUpgrade(db, 1,2);
     }
 
     @Override
@@ -121,6 +123,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onResume() {
+        super.onResume();
+        ListView lista = (ListView) findViewById(R.id.lista);
+        DBButtons dbButtons = new DBButtons(MainActivity.this);
+        Adaptador adaptador = new Adaptador(this, dbButtons.mostrarBotones());
+        lista.setAdapter(adaptador);
     }
 
     private void pedirPermisosBluetooth() {

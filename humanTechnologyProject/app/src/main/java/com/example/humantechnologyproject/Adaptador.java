@@ -1,6 +1,7 @@
 package com.example.humantechnologyproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -75,18 +76,19 @@ public class Adaptador extends BaseAdapter {
         LayoutInflater mostrado = LayoutInflater.from(context);
         View elemento = mostrado.inflate(R.layout.elemento, viewGroup, false);
         ImageView imagen = elemento.findViewById(R.id.imagen);
+        Uri uriFoto = Uri.parse(datos.get(i).getImagen());
+        imagen.setImageURI(uriFoto);
+        /*
         try {
             //Crear un imageView a partir de una ruta:
             File file = new File(datos.get(i).getImagen());
             Uri uri = Uri.fromFile(file);
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.context.getContentResolver(), uri);
             imagen.setImageBitmap(getImageView((Bitmap) getResizedBitmap(bitmap, 1024)));
-
-
         }catch(IOException e) {
             e.printStackTrace();
         }
-
+        */
         TextView titulo = elemento.findViewById(R.id.titulo);
         titulo.setText(datos.get(i).getTitulo());
 

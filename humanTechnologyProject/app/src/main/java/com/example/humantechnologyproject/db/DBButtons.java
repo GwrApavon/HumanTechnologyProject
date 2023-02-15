@@ -20,7 +20,7 @@ public class DBButtons extends DBHelper{
         this.context = context;
     }
 
-    public long insertarBoton(int id, String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
+    public long insertarBoton(String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
 
         long idnt = 0;
         try {
@@ -29,7 +29,7 @@ public class DBButtons extends DBHelper{
 
             ContentValues values = new ContentValues();
 
-            values.put("id", id);
+
             values.put("titulo", titulo);
             values.put("imagen", imagen);
             values.put("audio", audio);
@@ -57,10 +57,10 @@ public class DBButtons extends DBHelper{
         if (cursorBotones.moveToFirst()) {
             do {
                 boton = new Datos();
-                boton.setImagen(cursorBotones.getString(3));
-                boton.setTitulo(cursorBotones.getString(2));
-                boton.setAudio(cursorBotones.getString(4));
-                boton.setColor(cursorBotones.getString(5));
+                boton.setTitulo(cursorBotones.getString(1));
+                boton.setImagen(cursorBotones.getString(2));
+                boton.setAudio(cursorBotones.getString(3));
+                boton.setColor(cursorBotones.getString(4));
                 listaBotones.add(boton);
             } while (cursorBotones.moveToNext());
         }
