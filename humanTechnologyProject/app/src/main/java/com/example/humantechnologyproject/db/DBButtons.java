@@ -70,6 +70,31 @@ public class DBButtons extends DBHelper{
         return listaBotones;
     }
 
+    public Datos buttonView(int id) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Datos boton = null;
+        Cursor cursorBotones;
+
+        cursorBotones = db.rawQuery("SELECT * FROM t_buttons WHERE id = " + id + " LIMIT 1", null);
+
+        if (cursorBotones.moveToFirst()) {
+            boton = new Datos();
+            boton.setTitulo(cursorBotones.getString(1));
+            boton.setImagen(cursorBotones.getString(2));
+            boton.setAudio(cursorBotones.getString(3));
+            boton.setColor(cursorBotones.getString(4));
+            boton.setScreenTime(cursorBotones.getInt(5));
+            boton.setAudioTime(cursorBotones.getInt(6));
+        }
+
+        cursorBotones.close();
+
+        return boton;
+    }
+
 
 
 }

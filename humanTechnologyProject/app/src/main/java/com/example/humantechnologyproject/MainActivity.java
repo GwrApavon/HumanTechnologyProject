@@ -74,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 Intent intent = new Intent(MainActivity.this, CrearBoton.class);
+                intent.putExtra("ID", pos);
                 startActivity(intent);
             }
         });
@@ -245,9 +246,5 @@ public class MainActivity extends AppCompatActivity {
                 AD.show();
             }
         }
-    }
-
-    public static void insertarDatos(Drawable imagen, String titulo, String audio, int numButton){
-       //datos.add(imagen, titulo, audio, numButton);
     }
 }

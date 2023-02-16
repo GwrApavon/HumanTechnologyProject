@@ -35,22 +35,23 @@ import java.util.ArrayList;
 
 public class CrearBoton extends AppCompatActivity {
     private static final int CODIGO_PERMISOS_ALMACENAMIENTO = 1;
-    private static int idFinal = 1;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
     private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
     boolean permisosDados = false;
 
+    //Campos boton:
     EditText enterTitle, ScreenTime, AudioTime;
     ImageView addImage, idAudio;
     Spinner buttonColor;
+    Datos button;
+    int id = 0;
 
     Uri imageUri;
     Uri audioUri;
 
     //valores para crear el boton:
-    int id = 0;
     String imagePath = "";
     String audioPath = "";
     String color = "";
@@ -63,97 +64,49 @@ public class CrearBoton extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        id = extras.getInt("ID");
+        if(id > 0){
+            DBButtons dbButtons = new DBButtons(this);
+            button = dbButtons.buttonView(id);
 
-        enterTitle = findViewById(R.id.enterTitle);
-        ScreenTime = findViewById(R.id.ScreenTime);
-        AudioTime = findViewById(R.id.AudioTime);
-        addImage = findViewById(R.id.addImage);
-        idAudio = findViewById(R.id.idAudio);
-        buttonColor = findViewById(R.id.buttonColor);
+            if(button != null){
+                enterTitle = findViewById(R.id.enterTitle);
+                ScreenTime = findViewById(R.id.ScreenTime);
+                AudioTime = findViewById(R.id.AudioTime);
+                addImage = findViewById(R.id.addImage);
+                idAudio = findViewById(R.id.idAudio);
+                buttonColor = findViewById(R.id.buttonColor);
 
+                binding = ActivityMain2Binding.inflate(getLayoutInflater());
+                setContentView(binding.getRoot());
 
+                setSupportActionBar(binding.toolbar);
 
-        binding = ActivityMain2Binding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.toolbar);
-
-        //Seleccionar foto:
-        addImage = findViewById(R.id.addImage);
-        addImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(verificarPermisos()) {
-                    openGallery();
+                Uri uriFoto = Uri.parse(button.getImagen());
+                addImage.setImageURI(uriFoto);
+                String audioPath = button.getAudio();
+                String color = button.getColor();
+                enterTitle.setText(button.getTitulo());
+                if(button.getScreenTime() > 0){
+                    ScreenTime.setText(button.getScreenTime());
                 }
-                else {
-                    pedirPermisos();
-                }
-            }
-        });
-        //Seleccionar audio2:
-        idAudio = findViewById(R.id.idAudio);
-        idAudio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(verificarPermisos()) {
-                    SelectAudio();
-                }
-                else {
-                    pedirPermisos();
+                if(button.getAudioTime() > 0){
+                    AudioTime.setText(button.getAudioTime());
                 }
             }
-        });
-        //Seleccionar boton:
-        Spinner buttonColor = (Spinner) findViewById(R.id.buttonColor);
-        ArrayList<String> coloresBoton = new ArrayList<>();
-        coloresBoton.add("Azul");
-        coloresBoton.add("Rojo");
-        coloresBoton.add("Amarillo");
-        coloresBoton.add("Verde");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
-        buttonColor.setAdapter(adapter);
-        buttonColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String colorSeleccionado = (String) buttonColor.getSelectedItem();
-
-                TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
-                rBoton.setText("El color seleccionado es: "+colorSeleccionado);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        //Opciones avanzadas:
-        Button bAvanzada = (Button) findViewById(R.id.bAvanzado);
-        bAvanzada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                TextView tAudio = (TextView) findViewById(R.id.AudioTime);
-                tAudio.setVisibility(View.VISIBLE);
-                TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
-                tPantalla.setVisibility(View.VISIBLE);
-            }
-        });
-
-        //toolbar back button
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        else {
+            addShowView();
         }
 
 
     }
 
 
-//Seleccionar foto:
-//Visto: https://es.stackoverflow.com/questions/41707/cargar-una-imagen-desde-la-galeria-android
-//       https://stackoverflow.com/questions/71082372/startactivityforresult-is-deprecated-im-trying-to-update-my-code
+    //Seleccionar foto:
+    //Visto: https://es.stackoverflow.com/questions/41707/cargar-una-imagen-desde-la-galeria-android
+    //       https://stackoverflow.com/questions/71082372/startactivityforresult-is-deprecated-im-trying-to-update-my-code
     private void openGallery(){
         Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
@@ -280,7 +233,7 @@ public class CrearBoton extends AppCompatActivity {
 
         //back arrow function
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            finish(); // close this activity and return to previous activity (if there is any)
         }
         //Adds a new Button to the DB
         if (id == R.id.save) {
@@ -309,7 +262,6 @@ public class CrearBoton extends AppCompatActivity {
                                     color,
                                     screentime,
                                     soundtime);
-            incrementarIdFinal();
             
             if (comprobacion > 0){
                 Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
@@ -323,23 +275,89 @@ public class CrearBoton extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private static void incrementarIdFinal() {
-        idFinal++;
-    }
 
-    public static int getIdFinal() {
-        return idFinal;
+    public void addShowView(){
+        enterTitle = findViewById(R.id.enterTitle);
+        ScreenTime = findViewById(R.id.ScreenTime);
+        AudioTime = findViewById(R.id.AudioTime);
+        addImage = findViewById(R.id.addImage);
+        idAudio = findViewById(R.id.idAudio);
+        buttonColor = findViewById(R.id.buttonColor);
+
+        binding = ActivityMain2Binding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.toolbar);
+
+        //Seleccionar foto:
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(verificarPermisos()) {
+                    openGallery();
+                }
+                else {
+                    pedirPermisos();
+                }
+            }
+        });
+
+        //Seleccionar audio2:
+        idAudio = findViewById(R.id.idAudio);
+        idAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(verificarPermisos()) {
+                    SelectAudio();
+                }
+                else {
+                    pedirPermisos();
+                }
+            }
+        });
+        //Seleccionar boton:
+        Spinner buttonColor = (Spinner) findViewById(R.id.buttonColor);
+        ArrayList<String> coloresBoton = new ArrayList<>();
+        coloresBoton.add("Azul");
+        coloresBoton.add("Rojo");
+        coloresBoton.add("Amarillo");
+        coloresBoton.add("Verde");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
+        buttonColor.setAdapter(adapter);
+        buttonColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String colorSeleccionado = (String) buttonColor.getSelectedItem();
+
+                TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
+                rBoton.setText("El color seleccionado es: " + colorSeleccionado);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    //Opciones avanzadas:
+    Button bAvanzada = (Button) findViewById(R.id.bAvanzado);
+        bAvanzada.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            TextView tAudio = (TextView) findViewById(R.id.AudioTime);
+            tAudio.setVisibility(View.VISIBLE);
+            TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
+            tPantalla.setVisibility(View.VISIBLE);
+        }
+    });
+
+    //toolbar back button
+        if (getSupportActionBar() != null){
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
-    /*
-    private void FieldCleaner(){
-        enterTitle.setText("");
-        ScreenTime.setText("");
-        AudioTime.setText("");
-        addImage.set;
-        idAudio.set;
-        buttonColor.set;
     }
-    */
 }
 
 

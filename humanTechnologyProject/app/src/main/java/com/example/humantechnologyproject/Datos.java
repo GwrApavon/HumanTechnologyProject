@@ -5,6 +5,8 @@ public class Datos {
     private String titulo;
     private String audio;
     private String color;
+    private int screenTime;
+    private int audioTime;
     //private int edit_button;
 
     public Datos() {
@@ -52,4 +54,21 @@ public class Datos {
     public String getColor() {
         return color;
     }
+
+    public void setScreenTime(int screenTime) {
+        this.screenTime = screenTime;
+    }
+
+    public void setAudioTime(int audioTime) {
+        this.audioTime = audioTime;
+    }
+
+    public int getScreenTime() {
+        return screenTime;
+    }
+
+    public int getAudioTime() {
+        return audioTime;
+    }
+
 }
