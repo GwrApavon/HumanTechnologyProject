@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 public class CrearBoton extends AppCompatActivity {
     private static final int CODIGO_PERMISOS_ALMACENAMIENTO = 1;
+    private static int idFinal = 1;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
     private static final int PICK_AUDIO = 1;
@@ -149,12 +150,14 @@ public class CrearBoton extends AppCompatActivity {
 
     }
 
+
 //Seleccionar foto:
 //Visto: https://es.stackoverflow.com/questions/41707/cargar-una-imagen-desde-la-galeria-android
 //       https://stackoverflow.com/questions/71082372/startactivityforresult-is-deprecated-im-trying-to-update-my-code
     private void openGallery(){
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
+
         /**
         ActivityResultLauncher<Intent> startActivityIntent = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -167,13 +170,15 @@ public class CrearBoton extends AppCompatActivity {
                 });
          */
     }
+
     //Seleccionar foto:
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             imageUri = data.getData();
-            imagePath = data.getDataString();
+            getContentResolver().takePersistableUriPermission(imageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            imagePath = imageUri.toString();
             addImage.setImageURI(imageUri);
         }
         else {
@@ -282,7 +287,7 @@ public class CrearBoton extends AppCompatActivity {
             //Seleccionar titulo:
 
             enterTitle = findViewById(R.id.enterTitle);
-            enterTitle.getText().toString();
+            titulo = enterTitle.getText().toString();
 
             buttonColor = findViewById(R.id.buttonColor);
             color = buttonColor.getSelectedItem().toString();
@@ -297,13 +302,14 @@ public class CrearBoton extends AppCompatActivity {
             DBButtons dbButtons = new DBButtons(this);
 
 
-            long comprobacion = dbButtons.insertarBoton(2,
+            long comprobacion = dbButtons.insertarBoton(
                                     titulo,
                                     imagePath,
                                     audioPath,
-                    buttonColor.getSelectedItem().toString(),
+                                    color,
                                     screentime,
                                     soundtime);
+            incrementarIdFinal();
             
             if (comprobacion > 0){
                 Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
@@ -316,6 +322,13 @@ public class CrearBoton extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+    private static void incrementarIdFinal() {
+        idFinal++;
+    }
+
+    public static int getIdFinal() {
+        return idFinal;
     }
     /*
     private void FieldCleaner(){
