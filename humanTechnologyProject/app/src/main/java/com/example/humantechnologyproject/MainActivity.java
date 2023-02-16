@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
 import com.example.humantechnologyproject.db.DBButtons;
+import com.example.humantechnologyproject.db.DBHelper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
