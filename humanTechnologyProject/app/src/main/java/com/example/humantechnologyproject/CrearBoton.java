@@ -33,7 +33,7 @@ import com.example.humantechnologyproject.db.DBButtons;
 
 import java.util.ArrayList;
 
-public class MainActivity2 extends AppCompatActivity {
+public class CrearBoton extends AppCompatActivity {
     private static final int CODIGO_PERMISOS_ALMACENAMIENTO = 1;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMain2Binding binding;
@@ -201,7 +201,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void pedirPermisos() {
         AlertDialog AD;
-        AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+        AlertDialog.Builder ADBuilder = new AlertDialog.Builder(CrearBoton.this);
         ADBuilder.setMessage("Permite que 'SerrAlertas' pueda acceder al almacenamiento.");
 
 
@@ -209,7 +209,7 @@ public class MainActivity2 extends AppCompatActivity {
             ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCompat.requestPermissions(
-                            MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODIGO_PERMISOS_ALMACENAMIENTO
+                            CrearBoton.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODIGO_PERMISOS_ALMACENAMIENTO
                     );
                 }
             });
@@ -232,13 +232,13 @@ public class MainActivity2 extends AppCompatActivity {
 
             } else {
                 AlertDialog AD;
-                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity2.this);
+                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(CrearBoton.this);
                 ADBuilder.setMessage("Permite que 'SerrAlertas' pueda acceder al almacenamiento");
 
                 ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         ActivityCompat.requestPermissions(
-                                MainActivity2.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODIGO_PERMISOS_ALMACENAMIENTO
+                                CrearBoton.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CODIGO_PERMISOS_ALMACENAMIENTO
                         );
                     }
                 });
@@ -248,7 +248,7 @@ public class MainActivity2 extends AppCompatActivity {
         }
     }
     private boolean verificarPermisos() {
-        int estadoDePermiso = ContextCompat.checkSelfPermission(MainActivity2.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int estadoDePermiso = ContextCompat.checkSelfPermission(CrearBoton.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
             // En caso de que haya dado permisos ponemos la bandera en true
             // y llamar al método

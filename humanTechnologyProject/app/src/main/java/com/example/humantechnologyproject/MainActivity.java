@@ -4,37 +4,25 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
 import com.example.humantechnologyproject.db.DBButtons;
-import com.example.humantechnologyproject.db.DBHelper;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.MenuInflater;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -85,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                Intent intent = new Intent(MainActivity.this, CrearBoton.class);
                 startActivity(intent);
             }
         });
@@ -112,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         if (id == R.id.action_add) {
-            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+            Intent intent = new Intent(MainActivity.this, CrearBoton.class);
             startActivity(intent);
         }
         if (id == R.id.action_bluetooth) {

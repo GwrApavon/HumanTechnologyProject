@@ -20,7 +20,7 @@
         android:theme="@style/Theme.HumanTechnologyProject"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
+            android:name=".CrearBoton"
             android:exported="false"
             android:label="@string/title_activity_main2"
             android:theme="@style/Theme.HumanTechnologyProject.NoActionBar">
