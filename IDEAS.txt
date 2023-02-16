@@ -1,0 +1,3 @@
+////////////////  LUGAR PARA ESCRIBIR LAS IDEAS QUE TENGAMOS PARA LA APP //////////////////
+
+Hacer un método para rellenar los datos de la segunda activity y no tener que crear funciones dependiendo del boton para llegar ahí
