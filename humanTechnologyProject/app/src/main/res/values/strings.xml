@@ -26,8 +26,9 @@
     <string name="OpcionesAvanzadas">OPCIONES AVANZADAS</string>
     <string name="recuerde">¡Recuerde! Pulse el botón superior derecho para guardar su botón.</string>
     <string name="title_activity_show_bluetooth">ShowBluetooth</string>
-    <string name="titulo">TextView</string>
-    <string name="color">TextView</string>
+    <string name="titulo">Título</string>
+    <string name="color">Color</string>
+    <string name="bAceptar">ACEPTAR</string>
 
 
 </resources>

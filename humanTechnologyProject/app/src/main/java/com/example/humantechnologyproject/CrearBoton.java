@@ -186,7 +186,7 @@ public class CrearBoton extends AppCompatActivity {
                 audioUri = data.getData();
                 String enlace = "";
                 enlace = data.getDataString();
-                audioPath = data.getDataString();
+                audioPath = audioUri.toString();
                 TextView rAudio = (TextView) findViewById(R.id.resultadoAudio);
                 if(!enlace.equals("")) {
                     rAudio.setText("Audio seleccionado");
