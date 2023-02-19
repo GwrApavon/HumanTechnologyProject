@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.Nullable;
 
-import com.example.humantechnologyproject.Datos;
+import com.example.humantechnologyproject.Button;
 
 import java.util.ArrayList;
 
@@ -20,9 +20,32 @@ public class DBButtons extends DBHelper{
         this.context = context;
     }
 
-    public long insertarBoton(String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
+    public boolean editButton(int id, String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
 
-        long idnt = 0;
+        boolean validate = false;
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try{
+
+            db.execSQL("UPDATE TABLE_BUTTONS" +"SET titulo = '" + titulo + "',imagen = '" + imagen
+                        + "',audio = '" + audio +"',color = '" + color +"',tiempo_Pantalla = '" + tiempo_Pantalla +"',tiempo_Sonido = '" + tiempo_Sonido
+                        + "' WHERE id = '" + id + "'");
+
+            validate = true;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        finally {
+            db.close();
+        }
+        return validate;
+    }
+
+    public long insertButton(String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
+
+        long id = 0;
         try {
             DBHelper dbHelper = new DBHelper(context);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -36,27 +59,26 @@ public class DBButtons extends DBHelper{
             values.put("color", color);
             values.put("tiempo_Pantalla", tiempo_Pantalla);
             values.put("tiempo_Sonido", tiempo_Sonido);
-            idnt = db.insert(TABLE_BUTTONS, null, values);
+            id = db.insert(TABLE_BUTTONS, null, values);
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return idnt;
+        return id;
     }
-
-    public ArrayList<Datos> mostrarBotones() {
+    public ArrayList<Button> mostrarBotones() {
 
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ArrayList<Datos> listaBotones = new ArrayList<>();
-        Datos boton;
+        ArrayList<Button> listaBotones = new ArrayList<>();
+        Button boton;
         Cursor cursorBotones;
 
         cursorBotones = db.rawQuery("SELECT * FROM t_buttons", null);
 
         if (cursorBotones.moveToFirst()) {
             do {
-                boton = new Datos();
+                boton = new Button();
                 boton.setTitulo(cursorBotones.getString(1));
                 boton.setImagen(cursorBotones.getString(2));
                 boton.setAudio(cursorBotones.getString(3));
@@ -70,18 +92,18 @@ public class DBButtons extends DBHelper{
         return listaBotones;
     }
 
-    public Datos buttonView(int id) {
+    public Button buttonView(int id) {
 
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        Datos boton = null;
+        Button boton = null;
         Cursor cursorBotones;
 
         cursorBotones = db.rawQuery("SELECT * FROM t_buttons WHERE id = " + id + " LIMIT 1", null);
 
         if (cursorBotones.moveToFirst()) {
-            boton = new Datos();
+            boton = new Button();
             boton.setTitulo(cursorBotones.getString(1));
             boton.setImagen(cursorBotones.getString(2));
             boton.setAudio(cursorBotones.getString(3));
