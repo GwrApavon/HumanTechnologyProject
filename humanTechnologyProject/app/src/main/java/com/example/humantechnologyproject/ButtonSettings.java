@@ -40,6 +40,7 @@ public class ButtonSettings extends AppCompatActivity {
     private static final int PICK_IMAGE = 100;
     boolean givenPermissions = false;
 
+
     //Campos boton:
     EditText enterTitle, ScreenTime, AudioTime;
     TextView rAudio;
@@ -66,6 +67,9 @@ public class ButtonSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MenuItem item = findViewById(R.id.delete);
+        item.setVisible(false);
+
         enterTitle = findViewById(R.id.enterTitle);
         ScreenTime = findViewById(R.id.ScreenTime);
         AudioTime = findViewById(R.id.AudioTime);
@@ -87,6 +91,7 @@ public class ButtonSettings extends AppCompatActivity {
         id = receivedInt(savedInstanceState);
 
         if(id > 0){
+
 
             DBButtons dbButtons = new DBButtons(this);
             button = dbButtons.buttonView(id);
@@ -188,10 +193,10 @@ public class ButtonSettings extends AppCompatActivity {
         buttonColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String colorSeleccionado = (String) buttonColor.getSelectedItem();
+                String selectedColor = (String) buttonColor.getSelectedItem();
 
                 TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
-                rBoton.setText("El color seleccionado es: " + colorSeleccionado);
+                rBoton.setText("El color seleccionado es: " + selectedColor);
             }
 
             @Override
@@ -252,14 +257,16 @@ public class ButtonSettings extends AppCompatActivity {
         Toolbar options
         Home(back) = close the activity and returns you to the previous
         Save = saves the button in the database
+        Delete = deletes the button from the database
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        DBButtons dbButtons = new DBButtons(this);
         //back arrow function
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
-        if (id == R.id.save) {
+        if (item.getItemId() == R.id.save) {
             enterTitle = findViewById(R.id.enterTitle);
             title = enterTitle.getText().toString();
 
@@ -271,9 +278,6 @@ public class ButtonSettings extends AppCompatActivity {
 
             AudioTime = findViewById(R.id.AudioTime);
             audioTime = Integer.parseInt("" + AudioTime.getText());
-
-
-            DBButtons dbButtons = new DBButtons(this);
 
             if(verifyFullFilled()) {
                 if(id == 0) {
@@ -307,6 +311,28 @@ public class ButtonSettings extends AppCompatActivity {
                 Toast.makeText(this, "DEBE RELLENAR TODOS LOS CAMPOS OBLIGATORIOS", Toast.LENGTH_SHORT).show();
             }
         }
+        if (item.getItemId() == R.id.delete) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Está a punto de eliminar un botón. ¿Desea continuar?")
+                    .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            boolean deleted = dbButtons.deleteButton(id);
+
+                            if(deleted){
+                                finish();
+                            }
+                        }
+                    })
+                    .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    }).show();
+
+            }
         return super.onOptionsItemSelected(item);
     }
 
@@ -446,40 +472,4 @@ public class ButtonSettings extends AppCompatActivity {
         return true;
     }
 }
-
-
-/* COSAS HECHAS A MITAD PARA
-    Bundle extras = getIntent().getExtras();
-        id = extras.getInt("ID");
-        if(id > 0){
-            DBButtons dbButtons = new DBButtons(this);
-            button = dbButtons.buttonView(id);
-
-            if(button != null){
-                enterTitle = findViewById(R.id.enterTitle);
-                ScreenTime = findViewById(R.id.ScreenTime);
-                AudioTime = findViewById(R.id.AudioTime);
-                addImage = findViewById(R.id.addImage);
-                idAudio = findViewById(R.id.idAudio);
-                buttonColor = findViewById(R.id.buttonColor);
-
-                binding = ActivityMain2Binding.inflate(getLayoutInflater());
-                setContentView(binding.getRoot());
-
-                setSupportActionBar(binding.toolbar);
-
-                Uri uriFoto = Uri.parse(button.getImagen());
-                addImage.setImageURI(uriFoto);
-                String audioPath = button.getAudio();
-                String color = button.getColor();
-                enterTitle.setText(button.getTitulo());
-                if(button.getScreenTime() > 0){
-                    ScreenTime.setText(button.getScreenTime());
-                }
-                if(button.getAudioTime() > 0){
-                    AudioTime.setText(button.getAudioTime());
-                }
-            }
-        }
- */
 

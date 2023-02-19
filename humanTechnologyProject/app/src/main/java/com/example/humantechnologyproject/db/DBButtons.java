@@ -20,6 +20,38 @@ public class DBButtons extends DBHelper{
         this.context = context;
     }
 
+    /*
+        Receives an id to delete a button from the database
+        also returns true if success
+             returns false if failed
+     */
+    public boolean deleteButton(int id) {
+
+        boolean validate = false;
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try{
+
+            db.execSQL("DELETE FROM TABLE_BUTTONS WHERE id = '" + id +  "'" ) ;
+
+            validate = true;
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        finally {
+            db.close();
+        }
+        return validate;
+    }
+
+    /*
+        Edits the button from the database whose id is the one received as parameter
+        Receives all the fields in case any of them was edited
+        also returns true if success
+             returns false if failed
+     */
     public boolean editButton(int id, String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
 
         boolean validate = false;
@@ -43,6 +75,12 @@ public class DBButtons extends DBHelper{
         return validate;
     }
 
+    /*
+        Adds a button to the database
+        Receives all the fields in case any of them was edited
+        also returns the id if success
+             returns 0 if failed
+     */
     public long insertButton(String titulo, String imagen, String audio, String color, int tiempo_Pantalla, int tiempo_Sonido) {
 
         long id = 0;
@@ -65,6 +103,10 @@ public class DBButtons extends DBHelper{
         }
         return id;
     }
+
+    /*
+        Returns the buttons' ArrayList from the database
+     */
     public ArrayList<Button> mostrarBotones() {
 
         DBHelper dbHelper = new DBHelper(context);
@@ -92,6 +134,9 @@ public class DBButtons extends DBHelper{
         return listaBotones;
     }
 
+    /*
+        Returns a button from the database whose id is the one received as parameter
+     */
     public Button buttonView(int id) {
 
         DBHelper dbHelper = new DBHelper(context);
