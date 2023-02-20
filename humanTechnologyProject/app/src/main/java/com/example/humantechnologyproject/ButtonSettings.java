@@ -39,6 +39,7 @@ public class ButtonSettings extends AppCompatActivity {
     private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
     boolean givenPermissions = false;
+    boolean mostrarAdv = false;
 
 
     //Campos boton:
@@ -126,12 +127,12 @@ public class ButtonSettings extends AppCompatActivity {
             if(button.getScreenTime() > 0){
                 screenTime = button.getScreenTime();
                 ScreenTime = findViewById(R.id.ScreenTime);
-                ScreenTime.setText(screenTime);
+                ScreenTime.setText(""+screenTime);
             }
             if (button.getAudioTime() > 0 ){
                 audioTime = button.getAudioTime();
                 AudioTime = findViewById(R.id.AudioTime);
-                AudioTime.setText(audioTime);
+                AudioTime.setText(""+audioTime);
             }
         }
         else {
@@ -222,22 +223,23 @@ public class ButtonSettings extends AppCompatActivity {
         AudioTime = time the audio will sound
      */
     private void showAdvacedOptions() {
-        boolean mostrar = false;
         android.widget.Button bAvanzada = (android.widget.Button) findViewById(R.id.bAvanzado);
         bAvanzada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mostrar) {
+                if(!mostrarAdv) {
                     TextView tAudio = (TextView) findViewById(R.id.AudioTime);
                     tAudio.setVisibility(View.VISIBLE);
                     TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
                     tPantalla.setVisibility(View.VISIBLE);
+                    mostrarAdv = true;
                 }
                 else {
                     TextView tAudio = (TextView) findViewById(R.id.AudioTime);
                     tAudio.setVisibility(View.INVISIBLE);
                     TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
                     tPantalla.setVisibility(View.INVISIBLE);
+                    mostrarAdv = false;
                 }
             }
         });
