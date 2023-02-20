@@ -71,11 +71,7 @@ public class ButtonSettings extends AppCompatActivity {
         //item.setVisible(false);
 
 
-        ScreenTime = findViewById(R.id.ScreenTime);
-        AudioTime = findViewById(R.id.AudioTime);
-        addImage = findViewById(R.id.addImage);
-        idAudio = findViewById(R.id.idAudio);
-        buttonColor = findViewById(R.id.buttonColor);
+
         rAudio = findViewById(R.id.resultadoAudio);
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -113,8 +109,8 @@ public class ButtonSettings extends AppCompatActivity {
             enterTitle.setText(title);
 
             imagePath = button.getImagen();
-            Toast.makeText(this, "" + imagePath, Toast.LENGTH_SHORT).show();
             imageUri = Uri.parse(imagePath);
+            addImage = findViewById(R.id.addImage);
             addImage.setImageURI(imageUri);
 
             audioPath = button.getAudio();
@@ -124,14 +120,17 @@ public class ButtonSettings extends AppCompatActivity {
 
             color = button.getColor();
             int colorPosition = coloresBoton.indexOf(color);
+            buttonColor = findViewById(R.id.buttonColor);
             buttonColor.setSelection(colorPosition);
 
             if(button.getScreenTime() > 0){
                 screenTime = button.getScreenTime();
+                ScreenTime = findViewById(R.id.ScreenTime);
                 ScreenTime.setText(screenTime);
             }
             if (button.getAudioTime() > 0 ){
                 audioTime = button.getAudioTime();
+                AudioTime = findViewById(R.id.AudioTime);
                 AudioTime.setText(audioTime);
             }
         }
