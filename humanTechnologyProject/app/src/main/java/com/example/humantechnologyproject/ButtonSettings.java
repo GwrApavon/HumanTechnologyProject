@@ -70,7 +70,7 @@ public class ButtonSettings extends AppCompatActivity {
         //MenuItem item = findViewById(R.id.delete);
         //item.setVisible(false);
 
-        enterTitle = findViewById(R.id.enterTitle);
+
         ScreenTime = findViewById(R.id.ScreenTime);
         AudioTime = findViewById(R.id.AudioTime);
         addImage = findViewById(R.id.addImage);
@@ -109,6 +109,7 @@ public class ButtonSettings extends AppCompatActivity {
             button = dbButtons.buttonView(id);
 
             title = button.getTitulo();
+            enterTitle = findViewById(R.id.enterTitle);
             enterTitle.setText(title);
 
             imagePath = button.getImagen();
