@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
                 Intent intent = new Intent(MainActivity.this, ButtonSettings.class);
-                intent.putExtra("ID", pos);
+                intent.putExtra("ID", pos + 1);
                 startActivity(intent);
             }
         });

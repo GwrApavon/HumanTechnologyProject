@@ -67,8 +67,8 @@ public class ButtonSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MenuItem item = findViewById(R.id.delete);
-        item.setVisible(false);
+        //MenuItem item = findViewById(R.id.delete);
+        //item.setVisible(false);
 
         enterTitle = findViewById(R.id.enterTitle);
         ScreenTime = findViewById(R.id.ScreenTime);
@@ -88,11 +88,23 @@ public class ButtonSettings extends AppCompatActivity {
         coloresBoton.add("Amarillo");
         coloresBoton.add("Verde");
         // receives the id from the main activity
-        id = receivedInt(savedInstanceState);
 
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if(extras == null)
+            {
+                id = Integer.parseInt(null);
+            }
+            else
+            {
+                id = extras.getInt("ID");
+            }
+        }
+        else
+        {
+            id = (int) savedInstanceState.getSerializable("ID");
+        }
         if(id > 0){
-
-
             DBButtons dbButtons = new DBButtons(this);
             button = dbButtons.buttonView(id);
 
@@ -100,6 +112,7 @@ public class ButtonSettings extends AppCompatActivity {
             enterTitle.setText(title);
 
             imagePath = button.getImagen();
+            Toast.makeText(this, "" + imagePath, Toast.LENGTH_SHORT).show();
             imageUri = Uri.parse(imagePath);
             addImage.setImageURI(imageUri);
 
@@ -120,7 +133,6 @@ public class ButtonSettings extends AppCompatActivity {
                 audioTime = button.getAudioTime();
                 AudioTime.setText(audioTime);
             }
-
         }
         else {
             //Seleccionar foto:
@@ -147,22 +159,8 @@ public class ButtonSettings extends AppCompatActivity {
      */
     private int receivedInt(Bundle savedInstanceState)
     {
-        int id;
-        if(savedInstanceState == null){
-            Bundle extras = getIntent().getExtras();
-            if(extras == null)
-            {
-               id = Integer.parseInt(null);
-            }
-            else
-            {
-                id = extras.getInt("ID");
-            }
-        }
-        else
-        {
-            id = (int) savedInstanceState.getSerializable("ID");
-        }
+        int id = 0;
+
         return id;
     }
 
