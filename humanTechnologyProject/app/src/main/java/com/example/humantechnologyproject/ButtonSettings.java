@@ -72,7 +72,6 @@ public class ButtonSettings extends AppCompatActivity {
 
 
 
-        rAudio = findViewById(R.id.resultadoAudio);
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -115,6 +114,7 @@ public class ButtonSettings extends AppCompatActivity {
 
             audioPath = button.getAudio();
             if(audioPath != null) {
+                rAudio = findViewById(R.id.resultadoAudio);
                 rAudio.setText("Audio seleccionado");
             }
 
@@ -188,11 +188,11 @@ public class ButtonSettings extends AppCompatActivity {
     private void colorSelectionSpinner(Spinner buttonColor, ArrayList<String> coloresBoton) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
         buttonColor.setAdapter(adapter);
+        /*
         buttonColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedColor = (String) buttonColor.getSelectedItem();
-
                 TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
                 rBoton.setText("El color seleccionado es: " + selectedColor);
             }
@@ -202,6 +202,7 @@ public class ButtonSettings extends AppCompatActivity {
 
             }
         });
+         */
     }
 
     /*
@@ -221,14 +222,23 @@ public class ButtonSettings extends AppCompatActivity {
         AudioTime = time the audio will sound
      */
     private void showAdvacedOptions() {
+        boolean mostrar = false;
         android.widget.Button bAvanzada = (android.widget.Button) findViewById(R.id.bAvanzado);
         bAvanzada.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView tAudio = (TextView) findViewById(R.id.AudioTime);
-                tAudio.setVisibility(View.VISIBLE);
-                TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
-                tPantalla.setVisibility(View.VISIBLE);
+                if(!mostrar) {
+                    TextView tAudio = (TextView) findViewById(R.id.AudioTime);
+                    tAudio.setVisibility(View.VISIBLE);
+                    TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
+                    tPantalla.setVisibility(View.VISIBLE);
+                }
+                else {
+                    TextView tAudio = (TextView) findViewById(R.id.AudioTime);
+                    tAudio.setVisibility(View.INVISIBLE);
+                    TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
+                    tPantalla.setVisibility(View.INVISIBLE);
+                }
             }
         });
     }

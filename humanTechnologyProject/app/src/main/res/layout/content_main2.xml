@@ -9,10 +9,10 @@
 
     <TextView
         android:id="@+id/instruccion"
-        android:layout_width="323dp"
-        android:layout_height="37dp"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="72dp"
         android:text="@string/instruccionesConfig"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -21,8 +21,8 @@
 
     <TextView
         android:id="@+id/instruccion2"
-        android:layout_width="304dp"
-        android:layout_height="37dp"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
         android:layout_marginStart="52dp"
         android:text="@string/recuerde"
         android:textSize="16sp"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.925" />
+        app:layout_constraintVertical_bias="0.907" />
 
     <ImageView
         android:id="@+id/addImage"
@@ -78,8 +78,8 @@
 
     <Button
         android:id="@+id/bAvanzado"
-        android:layout_width="211dp"
-        android:layout_height="56dp"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="404dp"
         android:backgroundTint="@color/gris"
@@ -91,8 +91,8 @@
 
     <EditText
         android:id="@+id/ScreenTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="476dp"
         android:ems="10"
@@ -105,25 +105,14 @@
 
     <EditText
         android:id="@+id/AudioTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="532dp"
         android:ems="10"
         android:hint="Duración de alarma:"
         android:inputType="number"
         android:minHeight="48dp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/resultadoBoton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="612dp"
-        android:text="@string/noBoton"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
