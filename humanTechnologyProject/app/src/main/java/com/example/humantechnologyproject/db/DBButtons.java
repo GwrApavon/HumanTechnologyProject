@@ -33,7 +33,7 @@ public class DBButtons extends DBHelper{
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try{
 
-            db.execSQL("DELETE FROM TABLE_BUTTONS WHERE id = '" + id +  "'" ) ;
+            db.execSQL("DELETE FROM " + TABLE_BUTTONS + " WHERE id = '" + id +  "'" ) ;
 
             validate = true;
 
@@ -60,8 +60,9 @@ public class DBButtons extends DBHelper{
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try{
 
-            db.execSQL("UPDATE TABLE_BUTTONS" +"SET titulo = '" + titulo + "',imagen = '" + imagen
-                        + "',audio = '" + audio +"',color = '" + color +"',tiempo_Pantalla = '" + tiempo_Pantalla +"',tiempo_Sonido = '" + tiempo_Sonido
+            db.execSQL("UPDATE "+ TABLE_BUTTONS + " SET titulo = '" + titulo + "',imagen = '" + imagen
+                        + "',audio = '" + audio + "',color = '" + color + "',tiempo_Pantalla = '"
+                        + tiempo_Pantalla + "',tiempo_Sonido = '" + tiempo_Sonido
                         + "' WHERE id = '" + id + "'");
 
             validate = true;

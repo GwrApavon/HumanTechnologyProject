@@ -324,13 +324,25 @@ public class ButtonSettings extends AppCompatActivity {
             color = buttonColor.getSelectedItem().toString();
 
             ScreenTime = findViewById(R.id.ScreenTime);
-            screenTime = Integer.parseInt("" + ScreenTime.getText());
+            String ScreenTimeValue = ScreenTime.getText().toString();
+            if (ScreenTimeValue.equals("")){
+                screenTime = 10;
+            }
+            else {
+                screenTime = Integer.parseInt(ScreenTimeValue);
+            }
 
             AudioTime = findViewById(R.id.AudioTime);
-            audioTime = Integer.parseInt("" + AudioTime.getText());
+            String AudioTimeValue = AudioTime.getText().toString();
+            if (ScreenTimeValue.equals("")){
+                audioTime = 10;
+            }
+            else {
+                audioTime = Integer.parseInt(AudioTimeValue);
+            }
 
             if(verifyFullFilled()) {
-                if(id == 0) {
+                if(id == 0) { //Add
                     long comprobacion = dbButtons.insertButton(title, imagePath, audioPath, color, screenTime, audioTime);
 
                     if (comprobacion > 0) {
@@ -342,7 +354,7 @@ public class ButtonSettings extends AppCompatActivity {
                     }
                     finish();
                 }
-                if(id > 0){
+                if(id > 0){ //Modify
                     boolean edited = dbButtons.editButton(id, title, imagePath, audioPath, color, screenTime, audioTime);
 
                     if(edited){
@@ -358,16 +370,16 @@ public class ButtonSettings extends AppCompatActivity {
                 }
             }
             else{
-                Toast.makeText(this, "DEBE RELLENAR TODOS LOS CAMPOS OBLIGATORIOS", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "DEBE RELLENAR TODOS LOS CAMPOS OBLIGATORIOS",
+                        Toast.LENGTH_SHORT).show();
             }
         }
-        if (item.getItemId() == R.id.delete) {
+        if (item.getItemId() == R.id.delete) { //Delete
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Está a punto de eliminar un botón. ¿Desea continuar?")
                     .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
                             boolean deleted = dbButtons.deleteButton(id);
 
                             if(deleted){
@@ -386,7 +398,9 @@ public class ButtonSettings extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    /*
+        Verifies if the obligatory fields are filled
+     */
     private boolean verifyFullFilled(){
         if(!title.equals("") && !imagePath.equals("")&& !audioPath.equals("") && !color.equals("")){
             return true;

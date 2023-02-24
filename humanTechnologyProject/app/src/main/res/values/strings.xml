@@ -27,6 +27,10 @@
     <string name="recuerde">¡Recuerde! Pulse el botón superior derecho para guardar su botón.</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="t_tulo">Título...</string>
+    <string name="todo">TODO</string>
+    <string name="default_alarma">Duración de alarma: (Default 10)</string>
+    <string name="defaultAudio">Duración del audio: (Default 10)</string>
 
 
 </resources>
