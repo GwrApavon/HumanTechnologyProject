@@ -17,21 +17,21 @@ import java.util.ArrayList;
 
 public class Adapter extends BaseAdapter {
     Context context;
-    ArrayList<Button> datoes = new ArrayList<>();
+    ArrayList<Button> buttons = new ArrayList<>();
 
-    public Adapter(Context context, ArrayList<Button> datoes) {
+    public Adapter(Context context, ArrayList<Button> buttons) {
         this.context = context;
-        this.datoes = datoes;
+        this.buttons = buttons;
     }
 
     @Override
     public int getCount() {
-        return datoes.size();
+        return buttons.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return datoes.get(i);
+        return buttons.get(i);
     }
 
     @Override
@@ -39,64 +39,24 @@ public class Adapter extends BaseAdapter {
         return i;
     }
 
-    private Bitmap getImageView(Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        Bitmap decoded = BitmapFactory.decodeStream(new ByteArrayInputStream(bytes.toByteArray()));
-        return decoded;
-    }
-
-    //Poner la imagen con un tamaño marcado
-    private Object getResizedBitmap(Bitmap bitmap, int maxSize) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        //Si el tamaño es adecuado:
-        if(width <= maxSize && height <= maxSize) {
-            return bitmap;
-        }
-        //Calculo de nuevo tamaño:
-        float bitmapRatio = (float) width / (float) height;
-        if(bitmapRatio > 1) {
-            width = maxSize;
-            height = (int) (height * bitmapRatio);
-        }
-        else {
-            height = maxSize;
-            width = (int) (height * bitmapRatio);
-        }
-        return Bitmap.createScaledBitmap(bitmap, width, height, true);
-    }
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        LayoutInflater mostrado = LayoutInflater.from(context);
-        View elemento = mostrado.inflate(R.layout.elemento, viewGroup, false);
-        ImageView imagen = elemento.findViewById(R.id.imagen);
-        Uri uriFoto = Uri.parse(datoes.get(i).getImagen());
-        imagen.setImageURI(uriFoto);
-        /*
-        try {
-            //Crear un imageView a partir de una ruta:
-            File file = new File(datos.get(i).getImagen());
-            Uri uri = Uri.fromFile(file);
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.context.getContentResolver(), uri);
-            imagen.setImageBitmap(getImageView((Bitmap) getResizedBitmap(bitmap, 1024)));
-        }catch(IOException e) {
-            e.printStackTrace();
-        }
-        */
-        TextView titulo = elemento.findViewById(R.id.titulo);
-        titulo.setText(datoes.get(i).getTitulo());
+        LayoutInflater shown = LayoutInflater.from(context);
+        View element = shown.inflate(R.layout.elemento, viewGroup, false);
+        ImageView image = element.findViewById(R.id.imagen);
+        Uri uriImage = Uri.parse(buttons.get(i).getImage());
+        image.setImageURI(uriImage);
 
-        TextView audio = elemento.findViewById(R.id.audio);
-        audio.setText(datoes.get(i).getAudio());
+        TextView title = element.findViewById(R.id.titulo);
+        title.setText(buttons.get(i).getTitle());
 
-        TextView num_button = elemento.findViewById(R.id.num_button);
-        num_button.setText(String.valueOf(datoes.get(i).getColor()));
+        TextView audio = element.findViewById(R.id.audio);
+        audio.setText(buttons.get(i).getAudio());
 
-        //ImageButton edit_button = (ImageButton) elemento.findViewById(R.id.edit_button);
-        //edit_button.setImageResource(datos.get(i).getEdit_button());
-        return elemento;
+        TextView num_button = element.findViewById(R.id.num_button);
+        num_button.setText(String.valueOf(buttons.get(i).getColor()));
+
+        return element;
     }
 
 

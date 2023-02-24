@@ -1,31 +1,29 @@
 package com.example.humantechnologyproject;
 
 public class Button {
-    private String imagen;
-    private String titulo;
+    private String image;
+    private String title;
     private String audio;
     private String color;
     private int screenTime;
     private int audioTime;
-    //private int edit_button;
 
     public Button() {
 
     }
-    public Button(String imagen, String titulo, String audio, String color) {
-        this.imagen = imagen;
-        this.titulo = titulo;
+    public Button(String image, String title, String audio, String color) {
+        this.image = image;
+        this.title = title;
         this.audio = audio;
         this.color = color;
-        //this.edit_button = edit_button;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setAudio(String audio) {
@@ -37,19 +35,17 @@ public class Button {
     }
 
 
-    public String getTitulo() {
-        return titulo;
+    public String getTitle() {
+        return title;
     }
 
     public String getAudio() {
         return audio;
     }
 
-    public String getImagen() {
-        return imagen;
+    public String getImage() {
+        return image;
     }
-
-    //public int getEdit_button() {return edit_button;}
 
     public String getColor() {
         return color;

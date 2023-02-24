@@ -122,8 +122,8 @@ public class DBButtons extends DBHelper{
         if (cursorBotones.moveToFirst()) {
             do {
                 boton = new Button();
-                boton.setTitulo(cursorBotones.getString(1));
-                boton.setImagen(cursorBotones.getString(2));
+                boton.setTitle(cursorBotones.getString(1));
+                boton.setImage(cursorBotones.getString(2));
                 boton.setAudio(cursorBotones.getString(3));
                 boton.setColor(cursorBotones.getString(4));
                 listaBotones.add(boton);
@@ -143,24 +143,24 @@ public class DBButtons extends DBHelper{
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        Datos boton = null;
+        Button button = null;
         Cursor cursorBotones;
 
         cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
 
         if (cursorBotones.moveToFirst()) {
-            boton = new Datos();
-            boton.setTitulo(cursorBotones.getString(1));
-            boton.setImagen(cursorBotones.getString(2));
-            boton.setAudio(cursorBotones.getString(3));
-            boton.setColor(cursorBotones.getString(4));
-            boton.setScreenTime(cursorBotones.getInt(5));
-            boton.setAudioTime(cursorBotones.getInt(6));
+            button = new Button();
+            button.setTitle(cursorBotones.getString(1));
+            button.setImage(cursorBotones.getString(2));
+            button.setAudio(cursorBotones.getString(3));
+            button.setColor(cursorBotones.getString(4));
+            button.setScreenTime(cursorBotones.getInt(5));
+            button.setAudioTime(cursorBotones.getInt(6));
         }
 
         cursorBotones.close();
 
-        return boton;
+        return button;
     }
 
 

@@ -15,7 +15,6 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -78,8 +77,8 @@ public class ButtonSettings extends AppCompatActivity {
         coloresBoton.add("Rojo");
         coloresBoton.add("Amarillo");
         coloresBoton.add("Verde");
-        // receives the id from the main activity
 
+        // receives the id from the main activity
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
             if(extras == null)
@@ -176,7 +175,7 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the imagePath field
      */
     private void fillImage() {
-        imagePath = button.getImagen();
+        imagePath = button.getImage();
         imageUri = Uri.parse(imagePath);
         addImage = findViewById(R.id.addImage);
         addImage.setImageURI(imageUri);
@@ -187,7 +186,7 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the title field
      */
     private void fillTitle() {
-        title = button.getTitulo();
+        title = button.getTitle();
         enterTitle = findViewById(R.id.enterTitle);
         enterTitle.setText(title);
     }

@@ -1,30 +1,22 @@
 package com.example.humantechnologyproject;
 
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.humantechnologyproject.databinding.ActivityShowBluetoothBinding;
 
 import java.io.IOException;
-import java.util.ArrayList;
+
 /*
     Pasos:
         - Metodo de recuperar un único boton
@@ -48,16 +40,16 @@ public class ShowBluetooth extends AppCompatActivity {
     }
 
     //volcar los datos de la BD a los campos
-    public void setFields(Datos boton) {
+    public void setFields(Button button) {
         ImageView imagen = findViewById(R.id.imagenDB);
-        Uri uriFoto = Uri.parse(boton.getImagen());
+        Uri uriFoto = Uri.parse(button.getImagen());
         imagen.setImageURI(uriFoto);
 
         TextView titulo = findViewById(R.id.tituloDB);
-        titulo.setText("Título: "+boton.getTitulo());
+        titulo.setText("Título: "+button.getTitulo());
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.back);
-        switch(boton.getColor()) {
+        switch(button.getColor()) {
             case "Azul":
                 cl.setBackgroundColor(getResources().getColor(R.color.azul));
                 break;
