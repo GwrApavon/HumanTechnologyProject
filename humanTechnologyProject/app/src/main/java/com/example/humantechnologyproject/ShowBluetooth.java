@@ -1,5 +1,6 @@
 package com.example.humantechnologyproject;
 
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -54,8 +56,21 @@ public class ShowBluetooth extends AppCompatActivity {
         TextView titulo = findViewById(R.id.tituloDB);
         titulo.setText("Título: "+boton.getTitulo());
 
-        TextView color = findViewById(R.id.colorDB);
-        color.setText("Se ha seleccionado el botón "+boton.getColor());
+        ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.back);
+        switch(boton.getColor()) {
+            case "Azul":
+                cl.setBackgroundColor(getResources().getColor(R.color.azul));
+                break;
+            case "Amarillo":
+                cl.setBackgroundColor(getResources().getColor(R.color.amarillo));
+                break;
+            case "Rojo":
+                cl.setBackgroundColor(getResources().getColor(R.color.rojo));
+                break;
+            case "Verde":
+                cl.setBackgroundColor(getResources().getColor(R.color.verde));
+                break;
+        }
 
         //Reproducir musica:
         Uri uriAudio = Uri.parse(boton.getAudio());
