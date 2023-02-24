@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import androidx.annotation.Nullable;
 
 import com.example.humantechnologyproject.Button;

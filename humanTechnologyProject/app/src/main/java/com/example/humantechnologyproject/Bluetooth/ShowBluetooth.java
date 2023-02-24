@@ -1,20 +1,19 @@
-package com.example.humantechnologyproject;
+package com.example.humantechnologyproject.Bluetooth;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.ui.AppBarConfiguration;
 
+import com.example.humantechnologyproject.Button;
+import com.example.humantechnologyproject.R;
 import com.example.humantechnologyproject.databinding.ActivityShowBluetoothBinding;
-
 import java.io.IOException;
 
 /*
@@ -42,11 +41,11 @@ public class ShowBluetooth extends AppCompatActivity {
     //volcar los datos de la BD a los campos
     public void setFields(Button button) {
         ImageView imagen = findViewById(R.id.imagenDB);
-        Uri uriFoto = Uri.parse(button.getImagen());
+        Uri uriFoto = Uri.parse(button.getImage());
         imagen.setImageURI(uriFoto);
 
         TextView titulo = findViewById(R.id.tituloDB);
-        titulo.setText("Título: "+button.getTitulo());
+        titulo.setText("Título: "+button.getTitle());
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.back);
         switch(button.getColor()) {
@@ -65,7 +64,7 @@ public class ShowBluetooth extends AppCompatActivity {
         }
 
         //Reproducir musica:
-        Uri uriAudio = Uri.parse(boton.getAudio());
+        Uri uriAudio = Uri.parse(button.getAudio());
         MediaPlayer mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
@@ -77,7 +76,7 @@ public class ShowBluetooth extends AppCompatActivity {
         mediaPlayer.start();
 
         //Parar musica al pulsar boton:
-        Button bAceptar = findViewById(R.id.bAceptar);
+        android.widget.Button bAceptar = findViewById(R.id.bAceptar);
         bAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

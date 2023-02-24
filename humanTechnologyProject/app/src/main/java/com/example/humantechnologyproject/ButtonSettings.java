@@ -111,8 +111,6 @@ public class ButtonSettings extends AppCompatActivity {
             fillAdvancedOptions();
         }
         else {
-            Menu toolbar = findViewById(R.id.toolbar);
-            toolbar.findItem(1).setVisible(false);
             //Select Image:
             ImageSelect();
 
@@ -186,6 +184,8 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the title field
      */
     private void fillTitle() {
+        DBButtons dbButtons = new DBButtons(this);
+        button = dbButtons.buttonView(id);
         title = button.getTitle();
         enterTitle = findViewById(R.id.enterTitle);
         enterTitle.setText(title);
