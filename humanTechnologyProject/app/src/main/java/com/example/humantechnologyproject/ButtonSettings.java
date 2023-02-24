@@ -71,8 +71,6 @@ public class ButtonSettings extends AppCompatActivity {
         //MenuItem item = findViewById(R.id.delete);
         //item.setVisible(false);
 
-
-
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -104,36 +102,17 @@ public class ButtonSettings extends AppCompatActivity {
             DBButtons dbButtons = new DBButtons(this);
             button = dbButtons.buttonView(id);
 
-            title = button.getTitulo();
-            enterTitle = findViewById(R.id.enterTitle);
-            enterTitle.setText(title);
+            fillTitle();
 
-            imagePath = button.getImagen();
-            imageUri = Uri.parse(imagePath);
-            addImage = findViewById(R.id.addImage);
-            addImage.setImageURI(imageUri);
+            fillImage();
 
-            audioPath = button.getAudio();
-            if(audioPath != null) {
-                rAudio = findViewById(R.id.resultadoAudio);
-                rAudio.setText("Audio seleccionado");
-            }
+            fillAudio();
 
-            color = button.getColor();
-            int colorPosition = coloresBoton.indexOf(color);
-            buttonColor = findViewById(R.id.buttonColor);
-            buttonColor.setSelection(colorPosition);
+            fillButtonColor();
 
-            if(button.getScreenTime() > 0){
-                screenTime = button.getScreenTime();
-                ScreenTime = findViewById(R.id.ScreenTime);
-                ScreenTime.setText(""+screenTime);
-            }
-            if (button.getAudioTime() > 0 ){
-                audioTime = button.getAudioTime();
-                AudioTime = findViewById(R.id.AudioTime);
-                AudioTime.setText(""+audioTime);
-            }
+            showAdvacedOptions();
+
+            fillAdvancedOptions();
         }
         else {
             //Seleccionar foto:
@@ -153,6 +132,67 @@ public class ButtonSettings extends AppCompatActivity {
             //toolbar back button
             backButtonToolbar();
         }
+    }
+
+    /*
+      Fills the advanced options' fields
+     */
+    private void fillAdvancedOptions() {
+        if(button.getScreenTime() > 0){
+            screenTime = button.getScreenTime();
+            ScreenTime = findViewById(R.id.ScreenTime);
+            ScreenTime.setText(""+screenTime);
+        }
+        if (button.getAudioTime() > 0 ){
+            audioTime = button.getAudioTime();
+            AudioTime = findViewById(R.id.AudioTime);
+            AudioTime.setText(""+audioTime);
+        }
+    }
+
+    /*
+        Fills the spinner for color field
+     */
+    private void fillButtonColor() {
+        color = button.getColor();
+        int colorPosition = coloresBoton.indexOf(color);
+        buttonColor = findViewById(R.id.buttonColor);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
+        buttonColor.setAdapter(adapter);
+        buttonColor.setSelection(colorPosition);
+    }
+
+    /*
+        Fills the audioPath field
+     */
+    private void fillAudio() {
+        audioPath = button.getAudio();
+        if(audioPath != null) {
+            rAudio = findViewById(R.id.resultadoAudio);
+            rAudio.setText("Audio seleccionado");
+        }
+        audioSelect();
+    }
+
+    /*
+        Fills the imagePath field
+     */
+    private void fillImage() {
+        imagePath = button.getImagen();
+        imageUri = Uri.parse(imagePath);
+        addImage = findViewById(R.id.addImage);
+        addImage.setImageURI(imageUri);
+        ImageSelect();
+    }
+
+    /*
+        Fills the title field
+     */
+    private void fillTitle() {
+        title = button.getTitulo();
+        enterTitle = findViewById(R.id.enterTitle);
+        enterTitle.setText(title);
     }
 
     /*
