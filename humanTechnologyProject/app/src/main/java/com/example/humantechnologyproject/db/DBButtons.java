@@ -143,13 +143,13 @@ public class DBButtons extends DBHelper{
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        Button boton = null;
+        Datos boton = null;
         Cursor cursorBotones;
 
-        cursorBotones = db.rawQuery("SELECT * FROM t_buttons WHERE id = " + id + " LIMIT 1", null);
+        cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
 
         if (cursorBotones.moveToFirst()) {
-            boton = new Button();
+            boton = new Datos();
             boton.setTitulo(cursorBotones.getString(1));
             boton.setImagen(cursorBotones.getString(2));
             boton.setAudio(cursorBotones.getString(3));

@@ -31,6 +31,10 @@
     <string name="todo">TODO</string>
     <string name="default_alarma">Duración de alarma: (Default 10)</string>
     <string name="defaultAudio">Duración del audio: (Default 10)</string>
+    <string name="title_activity_show_bluetooth">ShowBluetooth</string>
+    <string name="titulo">Título</string>
+    <string name="color">Color</string>
+    <string name="bAceptar">ACEPTAR</string>
 
 
 </resources>
