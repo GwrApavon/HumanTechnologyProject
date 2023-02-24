@@ -68,9 +68,6 @@ public class ButtonSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //MenuItem item = findViewById(R.id.delete);
-        //item.setVisible(false);
-
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -115,18 +112,18 @@ public class ButtonSettings extends AppCompatActivity {
             fillAdvancedOptions();
         }
         else {
-            //Seleccionar foto:
-            addImage = findViewById(R.id.addImage);
+            Menu toolbar = findViewById(R.id.toolbar);
+            toolbar.findItem(1).setVisible(false);
+            //Select Image:
             ImageSelect();
 
-            //Seleccionar audio2:
+            //Select Audio:
             audioSelect();
 
-            //Seleccionar boton:
-            Spinner buttonColor = (Spinner) findViewById(R.id.buttonColor);
+            //Select Button Color:
             colorSelectionSpinner(buttonColor, coloresBoton);
 
-            //Opciones avanzadas:
+            //Advanced Options
             showAdvacedOptions();
 
             //toolbar back button
@@ -227,6 +224,7 @@ public class ButtonSettings extends AppCompatActivity {
         Color selection for a button (depending on the color of the button from the keypad)
      */
     private void colorSelectionSpinner(Spinner buttonColor, ArrayList<String> coloresBoton) {
+        buttonColor = (Spinner) findViewById(R.id.buttonColor);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
         buttonColor.setAdapter(adapter);
         /*
@@ -289,6 +287,7 @@ public class ButtonSettings extends AppCompatActivity {
         Used to select the Image you'll use for a button
      */
     private void ImageSelect() {
+        addImage = findViewById(R.id.addImage);
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
