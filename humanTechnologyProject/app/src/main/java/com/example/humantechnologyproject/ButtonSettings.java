@@ -148,7 +148,7 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the spinner for color field
      */
     private void fillButtonColor() {
-        color = button.getColor();
+        color = button.getColor().toString();
         int colorPosition = coloresBoton.indexOf(color);
         buttonColor = findViewById(R.id.buttonColor);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -161,7 +161,7 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the audioPath field
      */
     private void fillAudio() {
-        audioPath = button.getAudio();
+        audioPath = button.getAudio().toString();
         if(audioPath != null) {
             rAudio = findViewById(R.id.resultadoAudio);
             rAudio.setText("Audio seleccionado");
@@ -173,7 +173,7 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the imagePath field
      */
     private void fillImage() {
-        imagePath = button.getImage();
+        imagePath = button.getImage().toString();
         imageUri = Uri.parse(imagePath);
         addImage = findViewById(R.id.addImage);
         addImage.setImageURI(imageUri);
@@ -184,9 +184,7 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the title field
      */
     private void fillTitle() {
-        DBButtons dbButtons = new DBButtons(this);
-        button = dbButtons.buttonView(id);
-        title = button.getTitle();
+        title = button.getTitle().toString();
         enterTitle = findViewById(R.id.enterTitle);
         enterTitle.setText(title);
     }

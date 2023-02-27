@@ -1,6 +1,7 @@
 package com.example.humantechnologyproject;
 
 public class Button {
+    private int id;
     private String image;
     private String title;
     private String audio;
@@ -67,4 +68,7 @@ public class Button {
         return audioTime;
     }
 
+    public int getId() { return id;}
+
+    public void setId(int id) { this.id = id; }
 }

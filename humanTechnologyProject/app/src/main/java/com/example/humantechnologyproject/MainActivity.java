@@ -18,12 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ListView list = findViewById(R.id.lista);
 
         DBButtons dbButtons = new DBButtons(MainActivity.this);
-        Adapter adapter = new Adapter(this, dbButtons.mostrarBotones());
+        Adapter adapter = new Adapter(this, dbButtons.buttonList());
         list.setAdapter(adapter);
 
         /*
@@ -56,9 +59,15 @@ public class MainActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
-                Intent intent = new Intent(MainActivity.this, ButtonSettings.class);
-                intent.putExtra("ID", pos + 1);
-                startActivity(intent);
+                DBButtons dbButtons = new DBButtons(MainActivity.this);
+                List<Button> buttons = dbButtons.buttonList();
+                if (pos < buttons.size()) {
+                    Button button = buttons.get(pos);
+                    int id = button.getId();
+                    Intent intent = new Intent(MainActivity.this, ButtonSettings.class);
+                    intent.putExtra("ID", id);
+                    startActivity(intent);
+                }
             }
         });
         setSupportActionBar(binding.toolbar);
@@ -104,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         ListView lista = (ListView) findViewById(R.id.lista);
         DBButtons dbButtons = new DBButtons(MainActivity.this);
-        Adapter adapter = new Adapter(this, dbButtons.mostrarBotones());
+        Adapter adapter = new Adapter(this, dbButtons.buttonList());
         lista.setAdapter(adapter);
     }
 
@@ -112,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         Asks for permissions to access bluetooth
      */
     private void AskForPermissionBluetooth() {
+
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
         ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
@@ -149,6 +159,13 @@ public class MainActivity extends AppCompatActivity {
             AD = ADBuilder.create();
             AD.show();
             }
+        /*
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN}, PERMISSION_BLUETOOTH_CONNECT);
+        }
+
+         */
     }
 
     /*

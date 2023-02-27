@@ -107,31 +107,34 @@ public class DBButtons extends DBHelper{
     /*
         Returns the buttons' ArrayList from the database
      */
-    public ArrayList<Button> mostrarBotones() {
+    public ArrayList<Button> buttonList() {
 
         DBHelper dbHelper = new DBHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        ArrayList<Button> listaBotones = new ArrayList<>();
-        Button boton;
-        Cursor cursorBotones;
+        ArrayList<Button> buttonList = new ArrayList<>();
+        Button button;
+        Cursor buttonCursor;
 
-        cursorBotones = db.rawQuery("SELECT * FROM t_buttons", null);
+        buttonCursor = db.rawQuery("SELECT * FROM t_buttons", null);
 
-        if (cursorBotones.moveToFirst()) {
+        if (buttonCursor.moveToFirst()) {
             do {
-                boton = new Button();
-                boton.setTitle(cursorBotones.getString(1));
-                boton.setImage(cursorBotones.getString(2));
-                boton.setAudio(cursorBotones.getString(3));
-                boton.setColor(cursorBotones.getString(4));
-                listaBotones.add(boton);
-            } while (cursorBotones.moveToNext());
+                button = new Button();
+                button.setId(buttonCursor.getInt(0));
+                button.setTitle(buttonCursor.getString(1));
+                button.setImage(buttonCursor.getString(2));
+                button.setAudio(buttonCursor.getString(3));
+                button.setColor(buttonCursor.getString(4));
+                button.setScreenTime(buttonCursor.getInt(5));
+                button.setAudioTime(buttonCursor.getInt(6));
+                buttonList.add(button);
+            } while (buttonCursor.moveToNext());
         }
 
-        cursorBotones.close();
+        buttonCursor.close();
 
-        return listaBotones;
+        return buttonList;
     }
 
     /*
@@ -143,21 +146,21 @@ public class DBButtons extends DBHelper{
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         Button button = null;
-        Cursor cursorBotones;
+        Cursor buttonCursor;
 
-        cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
+        buttonCursor = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
 
-        if (cursorBotones.moveToFirst()) {
+        if (buttonCursor.moveToFirst()) {
             button = new Button();
-            button.setTitle(cursorBotones.getString(1));
-            button.setImage(cursorBotones.getString(2));
-            button.setAudio(cursorBotones.getString(3));
-            button.setColor(cursorBotones.getString(4));
-            button.setScreenTime(cursorBotones.getInt(5));
-            button.setAudioTime(cursorBotones.getInt(6));
+            button.setTitle(buttonCursor.getString(1));
+            button.setImage(buttonCursor.getString(2));
+            button.setAudio(buttonCursor.getString(3));
+            button.setColor(buttonCursor.getString(4));
+            button.setScreenTime(buttonCursor.getInt(5));
+            button.setAudioTime(buttonCursor.getInt(6));
         }
 
-        cursorBotones.close();
+        buttonCursor.close();
 
         return button;
     }
