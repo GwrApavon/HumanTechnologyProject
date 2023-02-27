@@ -27,7 +27,7 @@ import android.widget.ListView;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    public static boolean bConectado = false;
     private static final int PERMISSION_BLUETOOTH = 0;
     private static final int PERMISSION_BLUETOOTH_ADMIN = 0;
     private static final int PERMISSION_BLUETOOTH_CONNECT = 0;
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     /*
         Asks for permissions to access bluetooth
      */
-    private void AskForPermissionBluetooth() {
+    public void AskForPermissionBluetooth() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
         ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
