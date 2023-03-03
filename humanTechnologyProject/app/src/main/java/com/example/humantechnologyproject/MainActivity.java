@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_bluetooth) {
 
-            AskForPermissionBluetooth();
+            requestBluetoothPermissions();
         }
 
         return super.onOptionsItemSelected(item);
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*
         Asks for permissions to access bluetooth
-     */
+
     public void AskForPermissionBluetooth() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
@@ -151,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
             }
     }
 
-    /*
+
         After accepting permissions, it checks if it actually has permissions to access bluetooth
-     */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -223,5 +224,42 @@ public class MainActivity extends AppCompatActivity {
                 AD.show();
             }
         }
+
+
+    }
+
+     */
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 1;
+    private static final String[] BLUETOOTH_PERMISSIONS = {
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
+    };
+
+    public void requestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(BLUETOOTH_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(BLUETOOTH_PERMISSIONS[1]) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(BLUETOOTH_PERMISSIONS, REQUEST_BLUETOOTH_PERMISSIONS);
+            } else {
+                // Bluetooth permissions already granted
+            }
+        } else {
+            // Bluetooth permissions not needed for this version of Android
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            if (grantResults.length == 2 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                // Bluetooth permissions granted
+            } else {
+                // Bluetooth permissions denied
+            }
+        }
     }
 }
+

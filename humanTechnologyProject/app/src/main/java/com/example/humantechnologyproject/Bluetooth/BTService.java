@@ -73,7 +73,7 @@ public class BTService extends Service {
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
                     MainActivity ma = new MainActivity();
-                    ma.AskForPermissionBluetooth();
+                    ma.requestBluetoothPermissions();
                 }
                 btSocket.connect();
                 /**
@@ -163,7 +163,7 @@ public class BTService extends Service {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             MainActivity ma = new MainActivity();
-            ma.AskForPermissionBluetooth();
+            ma.requestBluetoothPermissions();
         }
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         //creates secure outgoing connecetion with BT device using UUID
