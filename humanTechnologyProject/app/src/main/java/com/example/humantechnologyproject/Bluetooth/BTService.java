@@ -17,6 +17,7 @@ import com.example.humantechnologyproject.db.DBHelper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -30,7 +31,7 @@ public class BTService extends Service {
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private ConnectedThread mConnectedThread;
-
+    private List<String> letters;
     public BTService() {
     }
 
@@ -38,6 +39,10 @@ public class BTService extends Service {
     public void onCreate() {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
+        letters.add("A");
+        letters.add("B");
+        letters.add("C");
+        letters.add("D");
     }
 
     @Override
@@ -73,7 +78,7 @@ public class BTService extends Service {
                     // to handle the case where the user grants the permission. See the documentation
                     // for ActivityCompat#requestPermissions for more details.
                     MainActivity ma = new MainActivity();
-                    ma.requestBluetoothPermissions();
+                    ma.AskForPermissionBluetooth();
                 }
                 btSocket.connect();
                 /**
@@ -163,7 +168,7 @@ public class BTService extends Service {
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             MainActivity ma = new MainActivity();
-            ma.requestBluetoothPermissions();
+            ma.AskForPermissionBluetooth();
         }
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         //creates secure outgoing connecetion with BT device using UUID
@@ -207,13 +212,13 @@ public class BTService extends Service {
                 try {
                     bytes = mmInStream.read(buffer);            //read bytes from input buffer
                     String readMessage = new String(buffer, 0, bytes);
-
+                    int id = letters.indexOf(readMessage)+1;
                     Intent miIntent = new Intent(getApplicationContext(), ShowBluetooth.class);
                     miIntent.setAction(Intent.ACTION_SCREEN_ON);
                     miIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     //miIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                    miIntent.putExtra("letra", readMessage);
-                    if(isDatosFromDataBase(readMessage)){
+                    miIntent.putExtra("ID", id);
+                    if(isDatosFromDataBase(id)){
 
                         //getActivity().moveTaskToBack(false);
                         getApplicationContext().startActivity(miIntent);
@@ -227,11 +232,11 @@ public class BTService extends Service {
                 }
             }
         }
-        public boolean isDatosFromDataBase(String str) {
+        public boolean isDatosFromDataBase(int id) {
             DBHelper dbHelper = new DBHelper(BTService.this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             boolean encontrado=false;
-            Cursor fila = db.rawQuery("select _id,letra,uri,pic,color from acciones where letra='" + str + "'", null);
+            Cursor fila = db.rawQuery("select id,titulo,imagen,audio,color,tiempo_Pantalla,tiempo_Sonido from acciones where id='" + id + "'", null);
             if (fila.moveToFirst()) {
                 encontrado = true;
             }

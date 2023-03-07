@@ -31,12 +31,16 @@ import java.io.IOException;
     Tener en cuenta bluetooth:
         - Cuando se llame a setFields hay que pasarle como parametro el resultado de getBoton a partir del id que se recibirá por bluetoth
  */
+
+/**
+ * Se recibe desde BTService el id del boton a mostrar y se muestra
+ */
 public class ShowBluetooth extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityShowBluetoothBinding binding;
     String strLetra;
-
+    int id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,13 +55,37 @@ public class ShowBluetooth extends AppCompatActivity {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        //Recibe el id del boton de btservice:
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if(extras == null)
+            {
+                id = Integer.parseInt(null);
+            }
+            else
+            {
+                id = extras.getInt("ID");
+            }
+        }
+        else
+        {
+            id = (int) savedInstanceState.getSerializable("ID");
+        }
+
+        //Obtiene el boton al que corresponde el id enviado:
+        DBButtons dbButtons = new DBButtons(ShowBluetooth.this);
+        Button b = dbButtons.buttonView(id);
+        if (id > 0) {
+            setFields(b);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        /*
         Intent intent = getIntent();
-        strLetra = intent.getStringExtra("letra");
+        strLetra = intent.getStringExtra("id");
         if (strLetra != null) {
         }
         //Poner el id q corresponde con las 4 letras que se reciben
@@ -68,6 +96,8 @@ public class ShowBluetooth extends AppCompatActivity {
         if (id > 0) {
             setFields(b);
         }
+
+         */
         moveTaskToBack(false);
         ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         am.moveTaskToFront(this.getTaskId(),0);
