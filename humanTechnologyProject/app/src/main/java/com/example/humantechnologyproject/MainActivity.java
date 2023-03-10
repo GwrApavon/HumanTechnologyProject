@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
+    String direccionMAC = "98:D3:61:F6:82:98";
     public static boolean bConectado = false;
     private static final int PERMISSION_BLUETOOTH = 0;
     private static final int PERMISSION_BLUETOOTH_ADMIN = 0;
@@ -96,7 +98,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_bluetooth) {
 
-            AskForPermissionBluetooth();
+            //AskForPermissionBluetooth();
+            Log.d("mainactivity", "BtnPulsado");
+            Intent BTService = new Intent(getApplicationContext(), BTService.class);
+            BTService.putExtra("direccionMAC", direccionMAC);
+            startService(BTService);
         }
 
         return super.onOptionsItemSelected(item);
@@ -179,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_BLUETOOTH_CONNECT)
         {
-            Toast.makeText(this,"grantResults.length"+grantResults.length+"grantResults[0]"+grantResults[0] , Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
 
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
@@ -189,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(this, "PERMISO DE BLUETOOTH DENEGADO", Toast.LENGTH_SHORT).show();
 
             }
+
         }
         /*
         if (requestCode == PERMISSION_BLUETOOTH_ADMIN) {

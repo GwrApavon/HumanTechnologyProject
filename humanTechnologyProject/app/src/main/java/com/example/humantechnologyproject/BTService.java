@@ -1,6 +1,10 @@
-package com.example.humantechnologyproject.Bluetooth;
+package com.example.humantechnologyproject;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -9,14 +13,20 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.widget.Toast;
+
 import androidx.core.app.ActivityCompat;
-import com.example.humantechnologyproject.MainActivity;
+
+import com.example.humantechnologyproject.Bluetooth.ShowBluetooth;
 import com.example.humantechnologyproject.db.DBHelper;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,89 +41,86 @@ public class BTService extends Service {
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private ConnectedThread mConnectedThread;
-    private List<String> letters;
+    private String direccionMAC;
+    public List<String> letters = new ArrayList<>();
+
     public BTService() {
     }
 
     @Override
     public void onCreate() {
+        Log.d("btservice", "onCreate");
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
         letters.add("A");
         letters.add("B");
         letters.add("C");
         letters.add("D");
+        // Crear una notificación que abra la portada de la aplicación al tocarla
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+        // Para versiones de Android posteriores a Oreo crear la notificación con un canal propio
+        Notification notification;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Mi canal de notificación";
+            String description = "Descripción de mi canal de notificación";
+            int importance = NotificationManager.IMPORTANCE_LOW;
+            NotificationChannel channel = new NotificationChannel("mi_canal_id", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+            notification = new Notification.Builder(this, "mi_canal_id")
+                    .setContentTitle("Serralertas está escuchando el dispositivo en segundo plano")
+                    .setContentText("Pulsa para abrir la aplicación")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .build();
+        } else {
+            notification = new Notification.Builder(this)
+                    .setContentTitle("Serralertas está escuchando el dispositivo en segundo plano")
+                    .setContentText("Pulsa para abrir la aplicación")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .build();
+        }
+        startForeground(1, notification);
+
+
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int idArranque) {
-        //Toast.makeText(getBaseContext(), "Intentando conexion a: "+ address, Toast.LENGTH_SHORT).show();
-        if (!MainActivity.bConectado) {
-
-            //Get the MAC address from the DeviceListActivty via EXTRA
-            if (intent != null) {
-                address = intent.getStringExtra("btaddress");
-                //Toast.makeText(getBaseContext(), "Arrancando address= " + address, Toast.LENGTH_SHORT).show();
-            } else {
-                //Toast.makeText(getBaseContext(), "intent nulo", Toast.LENGTH_SHORT).show();
-            }
-
-            //create device and set the MAC address
-            //Toast.makeText(getBaseContext(), "Intentando conexion a: "+ address, Toast.LENGTH_SHORT).show();
-            BluetoothDevice device = btAdapter.getRemoteDevice(address);
-
-            try {
-                btSocket = createBluetoothSocket(device);
-            } catch (IOException e) {
-                Toast.makeText(getBaseContext(), "La creacción del Socket fallo", Toast.LENGTH_SHORT).show();
-            }
+        Log.d("mainactivity", "onStartCommand");
+        if (intent != null) {
+            direccionMAC = intent.getStringExtra("direccionMAC");
+            Toast.makeText(this, "MAC: "+direccionMAC, Toast.LENGTH_SHORT).show();
+        }
+        BluetoothDevice dispositivo = btAdapter.getRemoteDevice(direccionMAC);
+        try {
+            btSocket = createBluetoothSocket(dispositivo);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
             // Establish the Bluetooth socket connection.
             try {
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    MainActivity ma = new MainActivity();
-                    ma.AskForPermissionBluetooth();
                 }
                 btSocket.connect();
-                /**
-                 * if(!MainActivity.bConectado) {
-                 *                     MainActivity ma = new MainActivity();
-                 *                     ma.AskForPermissionBluetooth();
-                 *                 }
-                 *                 else {
-                 *                     btSocket.connect();
-                 *                 }
-                 */
                 if (btSocket.isConnected()) {
                     Toast.makeText(getBaseContext(), "conectado", Toast.LENGTH_SHORT).show();
-                } else return START_NOT_STICKY;
-                MainActivity.bConectado = true;
-
-
+                } else return START_NOT_STICKY;//no volvera a iniciar
             } catch (IOException e) {
-                try {
-                    btSocket.close();
-                    MainActivity.bConectado = false;
-                    if (!btSocket.isConnected()) {
-                        MainActivity.bConectado = false;
-                        //Toast.makeText(getBaseContext(), "2 Intentando conexion a: "+ address, Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(getBaseContext(), "exception: Socket cerrado", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e2) {
-                    Toast.makeText(getBaseContext(), "Problemas: no se puede cerrar el socket", Toast.LENGTH_SHORT).show();
-                }
+                e.printStackTrace();
             }
             mConnectedThread = new ConnectedThread(btSocket);
             mConnectedThread.start();
-
-        }
-        return START_STICKY;
+        return START_STICKY;//volvera a iniciar el intent sin parametros adicionales
     }
 
     @Override
@@ -162,13 +169,6 @@ public class BTService extends Service {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            MainActivity ma = new MainActivity();
-            ma.AskForPermissionBluetooth();
         }
         return device.createRfcommSocketToServiceRecord(BTMODULEUUID);
         //creates secure outgoing connecetion with BT device using UUID
