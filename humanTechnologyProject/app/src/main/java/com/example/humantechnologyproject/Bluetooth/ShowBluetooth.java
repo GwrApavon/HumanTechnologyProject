@@ -105,12 +105,11 @@ public class ShowBluetooth extends AppCompatActivity {
 
     //volcar los datos de la BD a los campos
     public void setFields(Button button) {
-        ImageView imagen = findViewById(R.id.imagenDB);
-        Uri uriFoto = Uri.parse(button.getImage());
-        imagen.setImageURI(uriFoto);
+        ImageView image = findViewById(R.id.imagenDB);
+        Uri uriPhoto = Uri.parse(button.getImage());
+        image.setImageURI(uriPhoto);
 
-        TextView titulo = findViewById(R.id.tituloDB);
-        titulo.setText("Título: "+button.getTitle());
+        this.setTitle(button.getTitle());
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.back);
         switch(button.getColor()) {
@@ -141,11 +140,12 @@ public class ShowBluetooth extends AppCompatActivity {
         mediaPlayer.start();
 
         //Parar musica al pulsar boton:
-        android.widget.Button bAceptar = findViewById(R.id.bAceptar);
-        bAceptar.setOnClickListener(new View.OnClickListener() {
+        android.widget.Button bAccept = findViewById(R.id.bAceptar);
+        bAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mediaPlayer.stop();
+                finish();
             }
         });
     }
