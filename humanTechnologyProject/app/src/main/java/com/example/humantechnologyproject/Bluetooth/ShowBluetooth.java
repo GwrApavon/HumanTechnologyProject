@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -129,22 +131,15 @@ public class ShowBluetooth extends AppCompatActivity {
 
         //Reproducir musica:
         Uri uriAudio = Uri.parse(button.getAudio());
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaPlayer.setDataSource(getApplicationContext(), uriAudio);
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.start();
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uriAudio);
+        r.play();
 
         //Parar musica al pulsar boton:
         android.widget.Button bAccept = findViewById(R.id.bAceptar);
         bAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayer.stop();
+                r.stop();
                 finish();
             }
         });
