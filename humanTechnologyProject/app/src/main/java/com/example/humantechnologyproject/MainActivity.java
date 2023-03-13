@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void AskForPermissionBluetooth() {
-        BluetoothFunction
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
         ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
