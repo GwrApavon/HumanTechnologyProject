@@ -159,13 +159,6 @@ public class MainActivity extends AppCompatActivity {
             AD = ADBuilder.create();
             AD.show();
             }
-        /*
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN}, PERMISSION_BLUETOOTH_CONNECT);
-        }
-
-         */
     }
 
     /*

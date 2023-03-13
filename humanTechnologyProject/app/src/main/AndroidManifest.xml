@@ -31,7 +31,7 @@
         <activity
             android:name=".ButtonSettings"
             android:exported="false"
-            android:label="@string/title_activity_main2"
+            android:label="@string/act2_name"
             android:theme="@style/Theme.HumanTechnologyProject.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"

@@ -224,21 +224,6 @@ public class ButtonSettings extends AppCompatActivity {
         buttonColor = (Spinner) findViewById(R.id.buttonColor);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
         buttonColor.setAdapter(adapter);
-        /*
-        buttonColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedColor = (String) buttonColor.getSelectedItem();
-                TextView rBoton = (TextView) findViewById(R.id.resultadoBoton);
-                rBoton.setText("El color seleccionado es: " + selectedColor);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-         */
     }
 
     /*

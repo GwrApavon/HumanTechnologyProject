@@ -7,133 +7,145 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <TextView
+        android:id="@+id/instruccion"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/instruccionesConfig"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/idAudio"
         android:layout_width="108dp"
         android:layout_height="101dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="268dp"
+        android:layout_marginTop="12dp"
         android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toTopOf="@+id/bAvanzado"
+        app:layout_constraintEnd_toStartOf="@+id/resultadoAudio"
+        app:layout_constraintHorizontal_bias="0.076"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addImage"
+        app:layout_constraintVertical_bias="0.235"
         app:srcCompat="@drawable/audio" />
 
-    <EditText
-        android:id="@+id/enterTitle"
-        android:layout_width="206dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="144dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/t_tulo"
-        android:inputType="textPersonName"
+    <ImageView
+        android:id="@+id/addImage"
+        android:layout_width="112dp"
+        android:layout_height="119dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintEnd_toStartOf="@+id/buttonColor"
+        app:layout_constraintHorizontal_bias="0.242"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/instruccion"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
     <EditText
         android:id="@+id/ScreenTime"
         android:layout_width="324dp"
         android:layout_height="47dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="472dp"
+        android:layout_marginTop="20dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/defaultAudio"
         android:inputType="number"
         android:minHeight="48dp"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bAvanzado" />
 
-    <TextView
-        android:id="@+id/instruccion"
-        android:layout_width="324dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="68dp"
-        android:text="@string/instruccionesConfig"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/instruccion2"
-        android:layout_width="324dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="36dp"
-        android:text="@string/recuerde"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.906" />
-
-    <Button
-        android:id="@+id/bAvanzado"
-        android:layout_width="324dp"
+    <EditText
+        android:id="@+id/enterTitle"
+        android:layout_width="206dp"
         android:layout_height="48dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="400dp"
-        android:backgroundTint="@color/gris"
-        android:text="@string/OpcionesAvanzadas"
-        android:textColor="@color/white"
-        app:icon="@android:drawable/arrow_down_float"
-        app:iconPadding="@dimen/fab_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="TextContrastCheck,TextContrastCheck" />
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="36dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/t_tulo"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instruccion" />
 
     <TextView
         android:id="@+id/resultadoAudio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="56dp"
         android:text="@string/noAudio"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Spinner
-        android:id="@+id/buttonColor"
-        android:layout_width="206dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="156dp"
-        android:layout_marginTop="204dp"
-        android:prompt="@string/seleccionBoton"
-        android:spinnerMode="dialog"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonColor" />
 
     <EditText
         android:id="@+id/AudioTime"
         android:layout_width="324dp"
         android:layout_height="47dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="528dp"
+        android:layout_marginTop="12dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/default_alarma"
         android:inputType="number"
         android:minHeight="48dp"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ScreenTime" />
 
-    <ImageView
-        android:id="@+id/addImage"
-        android:layout_width="120dp"
-        android:layout_height="126dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="136dp"
-        android:contentDescription="@string/todo"
+    <Spinner
+        android:id="@+id/buttonColor"
+        android:layout_width="206dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="36dp"
+        android:prompt="@string/seleccionBoton"
+        android:spinnerMode="dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enterTitle"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/bAvanzado"
+        android:layout_width="324dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="72dp"
+        android:backgroundTint="@color/gris"
+        android:text="@string/OpcionesAvanzadas"
+        android:textColor="@color/white"
+        app:icon="@android:drawable/arrow_down_float"
+        app:iconPadding="@dimen/fab_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        tools:ignore="ImageContrastCheck,ImageContrastCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/resultadoAudio"
+        tools:ignore="TextContrastCheck,TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/instruccion2"
+        android:layout_width="324dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="48dp"
+        android:text="@string/recuerde"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AudioTime"
+        app:layout_constraintVertical_bias="0.011" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
