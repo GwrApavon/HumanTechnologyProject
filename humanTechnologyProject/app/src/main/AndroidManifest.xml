@@ -31,7 +31,7 @@
                 android:value="" />
         </activity>
         <service
-            android:name=".BTService"
+            android:name=".Bluetooth.BTService"
             android:enabled="true"
             android:exported="true" />
 

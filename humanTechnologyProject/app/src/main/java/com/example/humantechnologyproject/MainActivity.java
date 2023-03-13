@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
@@ -20,7 +19,6 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import android.view.Menu;
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
             //AskForPermissionBluetooth();
             Log.d("mainactivity", "BtnPulsado");
-            Intent BTService = new Intent(getApplicationContext(), BTService.class);
+            Intent BTService = new Intent(getApplicationContext(), com.example.humantechnologyproject.Bluetooth.BTService.class);
             BTService.putExtra("direccionMAC", direccionMAC);
             startService(BTService);
         }

@@ -1,4 +1,4 @@
-package com.example.humantechnologyproject;
+package com.example.humantechnologyproject.Bluetooth;
 
 import android.Manifest;
 import android.app.Notification;
@@ -21,6 +21,9 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 
 import com.example.humantechnologyproject.Bluetooth.ShowBluetooth;
+import com.example.humantechnologyproject.Button;
+import com.example.humantechnologyproject.MainActivity;
+import com.example.humantechnologyproject.R;
 import com.example.humantechnologyproject.db.DBHelper;
 
 import java.io.IOException;
@@ -29,6 +32,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 
 /**
  * Servicio que lanza un <code>thread</code> para el envio y reception de <code>bluetooth</code>
