@@ -40,15 +40,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ListView list = findViewById(R.id.lista);
-
         DBButtons dbButtons = new DBButtons(MainActivity.this);
         Adapter adapter = new Adapter(this, dbButtons.mostrarBotones());
         list.setAdapter(adapter);

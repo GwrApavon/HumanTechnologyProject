@@ -53,9 +53,9 @@ public class BTService extends Service {
         btAdapter = BluetoothAdapter.getDefaultAdapter();       // get Bluetooth adapter
         checkBTState();
         letters.add("A");
-        letters.add("B");
         letters.add("C");
-        letters.add("D");
+        letters.add("E");
+        letters.add("G");
         // Crear una notificación que abra la portada de la aplicación al tocarla
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -72,7 +72,7 @@ public class BTService extends Service {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
             notification = new Notification.Builder(this, "mi_canal_id")
-                    .setContentTitle("Serralertas está escuchando el dispositivo en segundo plano")
+                    .setContentTitle("SerrAlertas está en segundo plano")
                     .setContentText("Pulsa para abrir la aplicación")
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent)
@@ -80,7 +80,7 @@ public class BTService extends Service {
                     .build();
         } else {
             notification = new Notification.Builder(this)
-                    .setContentTitle("Serralertas está escuchando el dispositivo en segundo plano")
+                    .setContentTitle("Serralertas está en segundo plano")
                     .setContentText("Pulsa para abrir la aplicación")
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentIntent(pendingIntent)
@@ -233,17 +233,22 @@ public class BTService extends Service {
             }
         }
         public boolean isDatosFromDataBase(int id) {
-            DBHelper dbHelper = new DBHelper(BTService.this);
+            String TABLE_BUTTONS = "t_buttons";
+            boolean found = false;
+            DBHelper dbHelper = new DBHelper(getBaseContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            boolean encontrado=false;
-            Cursor fila = db.rawQuery("select id,titulo,imagen,audio,color,tiempo_Pantalla,tiempo_Sonido from acciones where id='" + id + "'", null);
-            if (fila.moveToFirst()) {
-                encontrado = true;
+
+            Button button = null;
+            Cursor cursorBotones;
+
+            cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
+
+            if (cursorBotones.moveToFirst()) {
+                found = true;
             }
-            int contador = fila.getCount();
-            fila.close();
+            cursorBotones.close();
             db.close();
-            return encontrado;
+            return found;
         }
     }
 }
