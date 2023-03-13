@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.humantechnologyproject.databinding.ActivityMainBinding;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
@@ -25,29 +27,27 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
+    String direccionMAC = "98:D3:61:F6:82:98";
+    public static boolean bConectado = false;
     private static final int PERMISSION_BLUETOOTH = 0;
     private static final int PERMISSION_BLUETOOTH_ADMIN = 0;
-    private static final int PERMISSION_BLUETOOTH_CONNECT = 0;
+    private static final int PERMISSION_BLUETOOTH_CONNECT = 3;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ListView list = findViewById(R.id.lista);
-
         DBButtons dbButtons = new DBButtons(MainActivity.this);
         Adapter adapter = new Adapter(this, dbButtons.buttonList());
         list.setAdapter(adapter);
@@ -103,7 +103,11 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_bluetooth) {
 
-            AskForPermissionBluetooth();
+            //AskForPermissionBluetooth();
+            Log.d("mainactivity", "BtnPulsado");
+            Intent BTService = new Intent(getApplicationContext(), BTService.class);
+            BTService.putExtra("direccionMAC", direccionMAC);
+            startService(BTService);
         }
 
         return super.onOptionsItemSelected(item);
@@ -119,13 +123,29 @@ public class MainActivity extends AppCompatActivity {
 
     /*
         Asks for permissions to access bluetooth
-     */
-    private void AskForPermissionBluetooth() {
 
+     */
+
+    public void AskForPermissionBluetooth() {
+        BluetoothFunction
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
         ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED){
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_DENIED){
+
+            ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(
+                            MainActivity.this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PERMISSION_BLUETOOTH_CONNECT
+                    );
+                }
+            });
+            AD = ADBuilder.create();
+            AD.show();
+        }
+
+        /*
+                if(ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) == PackageManager.PERMISSION_DENIED){
             ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     ActivityCompat.requestPermissions(
@@ -159,37 +179,33 @@ public class MainActivity extends AppCompatActivity {
             AD = ADBuilder.create();
             AD.show();
             }
+
+         */
     }
 
     /*
         After accepting permissions, it checks if it actually has permissions to access bluetooth
-     */
+    */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSION_BLUETOOTH)
+        if (requestCode == PERMISSION_BLUETOOTH_CONNECT)
         {
+            Toast.makeText(this,"onRequestPermissionsResult", Toast.LENGTH_SHORT).show();
+
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
+                Toast.makeText(this, "PERMISO DE BLUETOOTH CONCEDIDO", Toast.LENGTH_SHORT).show();
             }
             else {
-                AlertDialog AD;
-                AlertDialog.Builder ADBuilder = new AlertDialog.Builder(MainActivity.this);
-                ADBuilder.setMessage("Para conectar la botonera, necesario utilizar el bluetooth de tu dispositivo. Permite que 'SerrAlertas' pueda acceder al bluetooth.");
+                //Toast.makeText(this, "PERMISO DE BLUETOOTH DENEGADO", Toast.LENGTH_SHORT).show();
 
-                ADBuilder.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        ActivityCompat.requestPermissions(
-                                MainActivity.this, new String[]{Manifest.permission.BLUETOOTH}, PERMISSION_BLUETOOTH
-                        );
-                    }
-                });
-                AD = ADBuilder.create();
-                AD.show();
             }
+
         }
+        /*
         if (requestCode == PERMISSION_BLUETOOTH_ADMIN) {
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
             {
@@ -232,6 +248,47 @@ public class MainActivity extends AppCompatActivity {
                 AD = ADBuilder.create();
                 AD.show();
             }
+
+
+        }
+        */
+
+    }
+
+
+    private static final int REQUEST_BLUETOOTH_PERMISSIONS = 1;
+    private static final String[] BLUETOOTH_PERMISSIONS = {
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
+    };
+    /*
+    public void requestBluetoothPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(BLUETOOTH_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED ||
+                    checkSelfPermission(BLUETOOTH_PERMISSIONS[1]) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(BLUETOOTH_PERMISSIONS, REQUEST_BLUETOOTH_PERMISSIONS);
+            } else {
+                // Bluetooth permissions already granted
+            }
+        } else {
+            // Bluetooth permissions not needed for this version of Android
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSIONS) {
+            if (grantResults.length == 2 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                // Bluetooth permissions granted
+            } else {
+                // Bluetooth permissions denied
+            }
+        }
+    }
+
+     */
 }
+
