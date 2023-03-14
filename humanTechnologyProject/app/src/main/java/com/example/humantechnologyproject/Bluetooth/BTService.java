@@ -107,7 +107,6 @@ public class BTService extends Service {
         try {
             btSocket = createBluetoothSocket(dispositivo);
         } catch (IOException e) {
-            Toast.makeText(getBaseContext(), "No conectado", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
             // Establish the Bluetooth socket connection.
