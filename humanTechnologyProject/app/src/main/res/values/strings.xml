@@ -37,6 +37,7 @@
     <string name="color">Color</string>
     <string name="bAceptar">ACEPTAR</string>
     <string name="image">image</string>
+    <string name="edit">edit</string>
 
 
 </resources>
