@@ -107,6 +107,7 @@ public class BTService extends Service {
         try {
             btSocket = createBluetoothSocket(dispositivo);
         } catch (IOException e) {
+            Toast.makeText(getBaseContext(), "No conectado", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
             // Establish the Bluetooth socket connection.
@@ -118,10 +119,7 @@ public class BTService extends Service {
                 btSocket.connect();
                 if (btSocket.isConnected()) {
                     Toast.makeText(getBaseContext(), "conectado", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getBaseContext(), "No conectado", Toast.LENGTH_SHORT).show();
-                    return START_NOT_STICKY;//no volvera a iniciar
-                }
+                } else return START_NOT_STICKY;//no volvera a iniciar
             } catch (IOException e) {
                 e.printStackTrace();
             }
