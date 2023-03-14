@@ -39,11 +39,9 @@
         android:id="@+id/addImage"
         android:layout_width="112dp"
         android:layout_height="119dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
         android:contentDescription="@string/todo"
-        app:layout_constraintEnd_toStartOf="@+id/buttonColor"
-        app:layout_constraintHorizontal_bias="0.242"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instruccion"
         app:srcCompat="@android:drawable/ic_menu_add"
@@ -53,7 +51,7 @@
         android:id="@+id/ScreenTime"
         android:layout_width="324dp"
         android:layout_height="47dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/defaultAudio"
@@ -61,7 +59,7 @@
         android:minHeight="48dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bAvanzado" />
 
@@ -76,6 +74,8 @@
         android:hint="@string/t_tulo"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/addImage"
         app:layout_constraintTop_toBottomOf="@+id/instruccion" />
 
     <TextView
@@ -93,7 +93,7 @@
         android:id="@+id/AudioTime"
         android:layout_width="324dp"
         android:layout_height="47dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/default_alarma"
@@ -101,7 +101,7 @@
         android:minHeight="48dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ScreenTime" />
 
@@ -109,11 +109,13 @@
         android:id="@+id/buttonColor"
         android:layout_width="206dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="36dp"
         android:prompt="@string/seleccionBoton"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/addImage"
         app:layout_constraintTop_toBottomOf="@+id/enterTitle"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -121,14 +123,14 @@
         android:id="@+id/bAvanzado"
         android:layout_width="324dp"
         android:layout_height="48dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="76dp"
         android:backgroundTint="@color/gris"
         android:text="@string/OpcionesAvanzadas"
         android:textColor="@color/white"
         app:icon="@android:drawable/arrow_down_float"
         app:iconPadding="@dimen/fab_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resultadoAudio"
         tools:ignore="TextContrastCheck,TextContrastCheck" />
@@ -137,15 +139,14 @@
         android:id="@+id/instruccion2"
         android:layout_width="324dp"
         android:layout_height="47dp"
-        android:layout_marginTop="48dp"
         android:text="@string/recuerde"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/AudioTime"
-        app:layout_constraintVertical_bias="0.011" />
+        app:layout_constraintVertical_bias="0.264" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
