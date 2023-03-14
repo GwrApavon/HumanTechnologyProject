@@ -39,9 +39,9 @@
         android:id="@+id/addImage"
         android:layout_width="112dp"
         android:layout_height="119dp"
-        android:layout_marginStart="36dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/todo"
+        app:layout_constraintEnd_toStartOf="@+id/enterTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/instruccion"
         app:srcCompat="@android:drawable/ic_menu_add"
@@ -74,8 +74,6 @@
         android:hint="@string/t_tulo"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/addImage"
         app:layout_constraintTop_toBottomOf="@+id/instruccion" />
 
     <TextView
