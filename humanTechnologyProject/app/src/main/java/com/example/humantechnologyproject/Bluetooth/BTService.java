@@ -118,7 +118,10 @@ public class BTService extends Service {
                 btSocket.connect();
                 if (btSocket.isConnected()) {
                     Toast.makeText(getBaseContext(), "conectado", Toast.LENGTH_SHORT).show();
-                } else return START_NOT_STICKY;//no volvera a iniciar
+                } else {
+                    Toast.makeText(getBaseContext(), "No conectado", Toast.LENGTH_SHORT).show();
+                    return START_NOT_STICKY;//no volvera a iniciar
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
