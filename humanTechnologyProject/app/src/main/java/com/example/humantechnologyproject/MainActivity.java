@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_info) {
             Intent intent = new Intent(MainActivity.this, InfoActivity.class);
             startActivity(intent);
@@ -101,12 +100,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         if (id == R.id.action_bluetooth) {
-
             //AskForPermissionBluetooth();
             Log.d("mainactivity", "BtnPulsado");
             Intent BTService = new Intent(getApplicationContext(), com.example.humantechnologyproject.Bluetooth.BTService.class);
             BTService.putExtra("addressMAC", addressMAC);
             startService(BTService);
+        }
+        if (id == R.id.action_back) {
+            //AskForPermissionBluetooth();
+            Intent turnOffback = new Intent(getApplicationContext(), com.example.humantechnologyproject.Bluetooth.BTService.class);
+            stopService(turnOffback);
         }
 
         return super.onOptionsItemSelected(item);

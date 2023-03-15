@@ -126,7 +126,7 @@ public class BTService extends Service {
             mConnectedThread.start();
         return START_STICKY;//Relaunch the intent without additional parameters
     }
-
+    /*
     @Override
     public void onDestroy() {
 
@@ -143,7 +143,7 @@ public class BTService extends Service {
         Toast.makeText(getBaseContext(), "SERVICE DESTROY", Toast.LENGTH_SHORT).show();
         super.onDestroy();
 
-    }
+    }*/
 
 
     @Override
