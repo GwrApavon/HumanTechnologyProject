@@ -142,6 +142,7 @@ public class ShowBluetooth extends AppCompatActivity {
         }
 
         mp.start();
+        mp.setVolume(1f, 1f);
 
         android.widget.Button bAccept = findViewById(R.id.bAceptar);
         bAccept.setOnClickListener(new View.OnClickListener() {
