@@ -110,18 +110,21 @@ public class BTService extends Service {
             e.printStackTrace();
         }
             // Establish the Bluetooth socket connection.
-            try {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                }
-                btSocket.connect();
-                if (btSocket.isConnected()) {
-                    Toast.makeText(getBaseContext(), "CONECTADO", Toast.LENGTH_SHORT).show();
-                } else return START_NOT_STICKY;//no volvera a iniciar
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
             }
+            btSocket.connect();
+            if (btSocket.isConnected()) {
+                Toast.makeText(getBaseContext(), "CONECTADO", Toast.LENGTH_SHORT).show();
+            } else return START_NOT_STICKY;//no volvera a iniciar
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            Toast.makeText(getBaseContext(), "Conecte el Bluetooth", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
             mConnectedThread = new ConnectedThread(btSocket);
             mConnectedThread.start();
         return START_STICKY;//Relaunch the intent without additional parameters
@@ -203,6 +206,10 @@ public class BTService extends Service {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
+
+            }
+            catch (RuntimeException e) {
+                e.printStackTrace();
             }
 
             mmInStream = tmpIn;
@@ -234,6 +241,9 @@ public class BTService extends Service {
 
                 } catch (IOException e) {
 
+                    break;
+                }
+                catch (RuntimeException e) {
                     break;
                 }
             }
