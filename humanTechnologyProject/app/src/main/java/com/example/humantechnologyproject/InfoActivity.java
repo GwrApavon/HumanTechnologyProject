@@ -20,10 +20,10 @@ public class InfoActivity extends AppCompatActivity {
         TextView info = findViewById(R.id.infoTxV);
 
         info.setText("\nComo usar SerraAlertas:"
-                +"\n\n\n\t\t1.En la aplicacion pulse el icono desplegable de arriba a la derecha."
-                +"\n\n\n\t\t2.Presione Bluetooth para solicitar los permisos necesarios."
-                +"\n\n\n\t\t3.Añada los botones que representen cada necesidad."
-                +"\n\n\n\t\t4.Conecte la botonera."
+                +"\n\n\n\t\t1.Conecte la botonera."
+                +"\n\n\n\t\t2.En la aplicacion pulse el icono desplegable de arriba a la derecha."
+                +"\n\n\n\t\t3.Presione Bluetooth para solicitar los permisos necesarios."
+                +"\n\n\n\t\t4.Añada los botones que representen cada necesidad."
                 +"\n\n\n¡Comience a usar la app!");
 
         info.setTextSize(22);

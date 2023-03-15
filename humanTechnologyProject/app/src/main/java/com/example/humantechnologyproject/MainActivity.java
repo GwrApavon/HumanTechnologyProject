@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_back) {
             //AskForPermissionBluetooth();
-            Intent turnOffback = new Intent(getApplicationContext(), com.example.humantechnologyproject.Bluetooth.BTService.class);
-            stopService(turnOffback);
+            Intent turnOffBack = new Intent(getApplicationContext(), com.example.humantechnologyproject.Bluetooth.BTService.class);
+            stopService(turnOffBack);
         }
 
         return super.onOptionsItemSelected(item);

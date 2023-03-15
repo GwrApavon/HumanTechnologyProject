@@ -26,22 +26,22 @@ import com.example.humantechnologyproject.db.DBButtons;
 import java.io.IOException;
 
 /*
-    Pasos:
-        - Metodo de recuperar un único boton
-        - obtener y poner inf con setFields
-        - mirar reproducir musica
-    Tener en cuenta bluetooth:
-        - Cuando se llame a setFields hay que pasarle como parametro el resultado de getBoton a partir del id que se recibirá por bluetoth
+    Steps:
+        - Method to recover one button
+        - obtain and put inf with setFields
+        - check music play
+    Have Bluetooth in mind:
+        - When setFields id called you have to send as parameter the result of getButton
+          by the id received from bluetooth
  */
 
 /**
- * Se recibe desde BTService el id del boton a mostrar y se muestra
+ * Button's Id is received from BTService and its shown
  */
 public class ShowBluetooth extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityShowBluetoothBinding binding;
-    String strLetra;
     int id = 0;
 
     @Override
@@ -57,7 +57,8 @@ public class ShowBluetooth extends AppCompatActivity {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-        //Recibe el id del boton de btservice:
+
+        //Receives button's id from btservice
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
             if(extras == null)
