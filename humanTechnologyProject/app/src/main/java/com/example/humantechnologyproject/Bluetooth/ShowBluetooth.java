@@ -129,6 +129,30 @@ public class ShowBluetooth extends AppCompatActivity {
                 break;
         }
 
+        String filePath = button.getAudio();
+
+
+        MediaPlayer mp = new MediaPlayer();
+
+        try {
+            mp.setDataSource(filePath);
+            mp.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mp.start();
+
+        android.widget.Button bAccept = findViewById(R.id.bAceptar);
+        bAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mp.stop();
+                finish();
+            }
+        });
+        /*
+
         //Reproducir musica:
         Uri uriAudio = Uri.parse(button.getAudio());
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uriAudio);
@@ -143,5 +167,7 @@ public class ShowBluetooth extends AppCompatActivity {
                 finish();
             }
         });
+                    */
+
     }
 }
