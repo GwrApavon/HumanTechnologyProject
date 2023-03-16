@@ -1,6 +1,7 @@
 package com.example.humantechnologyproject;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,10 +39,10 @@ public class ButtonSettings extends AppCompatActivity {
     private static final int PICK_AUDIO = 1;
     private static final int PICK_IMAGE = 100;
     boolean givenPermissions = false;
-    boolean mostrarAdv = false;
+    boolean showAdv = false;
 
 
-    //Campos boton:
+    //Button Fields:
     EditText enterTitle, ScreenTime, AudioTime;
     TextView rAudio;
     ImageView addImage, idAudio;
@@ -51,9 +52,9 @@ public class ButtonSettings extends AppCompatActivity {
 
     Uri imageUri;
     Uri audioUri;
-    ArrayList<String> coloresBoton;
+    ArrayList<String> buttonColors;
 
-    //valores para crear el boton:
+    //Button create values:
     String imagePath = "";
     String audioPath = "";
     String color = "";
@@ -72,11 +73,11 @@ public class ButtonSettings extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
 
-        coloresBoton = new ArrayList<String>();
-        coloresBoton.add("Azul");
-        coloresBoton.add("Rojo");
-        coloresBoton.add("Amarillo");
-        coloresBoton.add("Verde");
+        buttonColors = new ArrayList<String>();
+        buttonColors.add("Azul");
+        buttonColors.add("Rojo");
+        buttonColors.add("Amarillo");
+        buttonColors.add("Verde");
 
         // receives the id from the main activity
         if(savedInstanceState == null){
@@ -106,7 +107,7 @@ public class ButtonSettings extends AppCompatActivity {
 
             fillButtonColor();
 
-            showAdvacedOptions();
+            showAdvancedOptions();
 
             fillAdvancedOptions();
         }
@@ -118,10 +119,10 @@ public class ButtonSettings extends AppCompatActivity {
             audioSelect();
 
             //Select Button Color:
-            colorSelectionSpinner(buttonColor, coloresBoton);
+            colorSelectionSpinner(buttonColor, buttonColors);
 
             //Advanced Options
-            showAdvacedOptions();
+            showAdvancedOptions();
 
             //toolbar back button
             backButtonToolbar();
@@ -148,11 +149,11 @@ public class ButtonSettings extends AppCompatActivity {
         Fills the spinner for color field
      */
     private void fillButtonColor() {
-        color = button.getColor().toString();
-        int colorPosition = coloresBoton.indexOf(color);
+        color = button.getColor();
+        int colorPosition = buttonColors.indexOf(color);
         buttonColor = findViewById(R.id.buttonColor);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, coloresBoton);
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, buttonColors);
         buttonColor.setAdapter(adapter);
         buttonColor.setSelection(colorPosition);
     }
@@ -160,8 +161,9 @@ public class ButtonSettings extends AppCompatActivity {
     /*
         Fills the audioPath field
      */
+    @SuppressLint("SetTextI18n")
     private void fillAudio() {
-        audioPath = button.getAudio().toString();
+        audioPath = button.getAudio();
         if(audioPath != null) {
             rAudio = findViewById(R.id.resultadoAudio);
             rAudio.setText("Audio seleccionado");
@@ -190,16 +192,6 @@ public class ButtonSettings extends AppCompatActivity {
     }
 
     /*
-        Checks the integer received from the main activity
-     */
-    private int receivedInt(Bundle savedInstanceState)
-    {
-        int id = 0;
-
-        return id;
-    }
-
-    /*
         Used to select the audio you'll use as a notification alarm for a button
      */
     private void audioSelect() {
@@ -207,11 +199,11 @@ public class ButtonSettings extends AppCompatActivity {
         idAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(verificarPermisos()) {
+                if(verifyPermissions()) {
                     SelectAudio();
                 }
                 else {
-                    pedirPermisos();
+                    askForPermissions();
                 }
             }
         });
@@ -242,24 +234,24 @@ public class ButtonSettings extends AppCompatActivity {
         ScreenTime = time the notification will be on the screen
         AudioTime = time the audio will sound
      */
-    private void showAdvacedOptions() {
-        android.widget.Button bAvanzada = (android.widget.Button) findViewById(R.id.bAvanzado);
-        bAvanzada.setOnClickListener(new View.OnClickListener() {
+    private void showAdvancedOptions() {
+        android.widget.Button bAdvance = findViewById(R.id.bAvanzado);
+        bAdvance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!mostrarAdv) {
-                    TextView tAudio = (TextView) findViewById(R.id.AudioTime);
-                    tAudio.setVisibility(View.VISIBLE);
-                    TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
-                    tPantalla.setVisibility(View.VISIBLE);
-                    mostrarAdv = true;
+                if(!showAdv) {
+                    TextView audioT = (TextView) findViewById(R.id.AudioTime);
+                    audioT.setVisibility(View.VISIBLE);
+                    TextView screenT = (TextView) findViewById(R.id.ScreenTime);
+                    screenT.setVisibility(View.VISIBLE);
+                    showAdv = true;
                 }
                 else {
                     TextView tAudio = (TextView) findViewById(R.id.AudioTime);
                     tAudio.setVisibility(View.INVISIBLE);
                     TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
                     tPantalla.setVisibility(View.INVISIBLE);
-                    mostrarAdv = false;
+                    showAdv = false;
                 }
             }
         });
@@ -274,11 +266,11 @@ public class ButtonSettings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(verificarPermisos()) {
+                if(verifyPermissions()) {
                     openGallery();
                 }
                 else {
-                    pedirPermisos();
+                    askForPermissions();
                 }
             }
         });
@@ -324,9 +316,9 @@ public class ButtonSettings extends AppCompatActivity {
 
             if(verifyFullFilled()) {
                 if(id == 0) { //Add
-                    long comprobacion = dbButtons.insertButton(title, imagePath, audioPath, color, screenTime, audioTime);
+                    long checking = dbButtons.insertButton(title, imagePath, audioPath, color, screenTime, audioTime);
 
-                    if (comprobacion > 0) {
+                    if (checking > 0) {
                         Toast.makeText(this, "REGISTRO GUARDADO", Toast.LENGTH_SHORT).show();
                         //FieldCleaner();
                     } else {
@@ -440,7 +432,7 @@ public class ButtonSettings extends AppCompatActivity {
     /*
         Asks for permissions to access the storage
      */
-    private void pedirPermisos() {
+    private void askForPermissions() {
         AlertDialog AD;
         AlertDialog.Builder ADBuilder = new AlertDialog.Builder(ButtonSettings.this);
         ADBuilder.setMessage("Permite que 'SerrAlertas' pueda acceder al almacenamiento.");
@@ -497,9 +489,9 @@ public class ButtonSettings extends AppCompatActivity {
     /*
         Verifies if it has permissions to access the storage
      */
-    private boolean verificarPermisos() {
-        int estadoDePermiso = ContextCompat.checkSelfPermission(ButtonSettings.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (estadoDePermiso == PackageManager.PERMISSION_GRANTED) {
+    private boolean verifyPermissions() {
+        int permissionState = ContextCompat.checkSelfPermission(ButtonSettings.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionState == PackageManager.PERMISSION_GRANTED) {
             // En caso de que haya dado permisos ponemos la bandera en true
             // y llamar al método
             return true;

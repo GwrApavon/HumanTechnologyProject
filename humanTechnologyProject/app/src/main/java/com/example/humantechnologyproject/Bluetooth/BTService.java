@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
-import com.example.humantechnologyproject.Bluetooth.ShowBluetooth;
 import com.example.humantechnologyproject.Button;
 import com.example.humantechnologyproject.MainActivity;
 import com.example.humantechnologyproject.R;
@@ -45,7 +44,7 @@ public class BTService extends Service {
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private ConnectedThread mConnectedThread;
-    private String direccionMAC;
+    private String addressMAC;
     public List<String> letters = new ArrayList<>();
 
     public BTService() {
@@ -60,12 +59,13 @@ public class BTService extends Service {
         letters.add("C");
         letters.add("E");
         letters.add("G");
-        // Crear una notificación que abra la portada de la aplicación al tocarla
+
+        // Create a notification that opens the app's main screen on click
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
-        // Para versiones de Android posteriores a Oreo crear la notificación con un canal propio
+        // For any version from Oreo on, create the notification with a personal channel
         Notification notification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Mi canal de notificación";
@@ -100,52 +100,53 @@ public class BTService extends Service {
     public int onStartCommand(Intent intent, int flags, int idArranque) {
         Log.d("mainactivity", "onStartCommand");
         if (intent != null) {
-            direccionMAC = intent.getStringExtra("direccionMAC");
-            Toast.makeText(this, "MAC: "+direccionMAC, Toast.LENGTH_SHORT).show();
+            addressMAC = intent.getStringExtra("addressMAC");
+            Toast.makeText(this, "MAC: "+ addressMAC, Toast.LENGTH_SHORT).show();
         }
-        BluetoothDevice dispositivo = btAdapter.getRemoteDevice(direccionMAC);
+        BluetoothDevice device = btAdapter.getRemoteDevice(addressMAC);
         try {
-            btSocket = createBluetoothSocket(dispositivo);
+            btSocket = createBluetoothSocket(device);
         } catch (IOException e) {
             e.printStackTrace();
         }
             // Establish the Bluetooth socket connection.
-            try {
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                }
-                btSocket.connect();
-                if (btSocket.isConnected()) {
-                    Toast.makeText(getBaseContext(), "conectado", Toast.LENGTH_SHORT).show();
-                } else return START_NOT_STICKY;//no volvera a iniciar
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
             }
+            btSocket.connect();
+            if (btSocket.isConnected()) {
+                Toast.makeText(getBaseContext(), "CONECTADO", Toast.LENGTH_SHORT).show();
+            } else return START_NOT_STICKY;//no volvera a iniciar
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            Toast.makeText(getBaseContext(), "Conecte el Bluetooth", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
             mConnectedThread = new ConnectedThread(btSocket);
             mConnectedThread.start();
-        return START_STICKY;//volvera a iniciar el intent sin parametros adicionales
+        return START_STICKY;//Relaunch the intent without additional parameters
     }
-
+    /*
     @Override
     public void onDestroy() {
 
-        //this.stopSelf();
         mConnectedThread.stop();
         try {
             btSocket.close();
 
         } catch (IOException e2) {
-            Toast.makeText(getBaseContext(), "Otros problemas: no se puede cerrar el socket", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "OTROS PROBLEMAS: NO SE PUEDE CERRAR EL SOCKET", Toast.LENGTH_SHORT).show();
         }
         if (!btSocket.isConnected()) {
-            MainActivity.bConectado = false;
-            //Toast.makeText(getBaseContext(), "onDestroy: Socket cerrado", Toast.LENGTH_SHORT).show();
+            MainActivity.bConnected = false;
         }
-        Toast.makeText(getBaseContext(), "Service Destroy", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "SERVICE DESTROY", Toast.LENGTH_SHORT).show();
         super.onDestroy();
 
-    }
+    }*/
 
 
     @Override
@@ -157,12 +158,12 @@ public class BTService extends Service {
     private void checkBTState() {
 
         if (btAdapter == null) {
-            Toast.makeText(getBaseContext(), "El dispositivo no soporta bluetooth", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "EL DISPOSITIVO NO SOPORTA BLUETOOTH", Toast.LENGTH_SHORT).show();
         } else {
             if (btAdapter.isEnabled()) {
 
             } else {
-                Toast.makeText(getBaseContext(), "El dispositivo no está habilitado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "EL DISPOSITIVO NO ESTÁ HABILITADO", Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -182,8 +183,12 @@ public class BTService extends Service {
 
     //create new class for connect thread
     /**
-     * Hilo que conecta un socket con el aparato externo para la recepcion bluetooth
-     * tiene los atributos mmInStream y mmOutStream que son InputStream y OutputStream respectivamente y usados en la transmision de mensajes entre los dispositivos. En este proyecto solo se utiliza el atributo mmInStream ya que solo se necesitan los mensajes de entrada que son enviados por el dispositivo bluetooth externo.
+     * Thread that connects a socket with the external device to receive input via bluetooth
+     * @parameter mmInStream: InputStream
+     * @parameter mmOutStream: OutputStream
+     * Streams from above are used in the message transmission between devices.
+     * Only used mmInStream in this project since we just need input message reading for
+     * messages sent by the external bluetooth device
      * @author JSLM
      * @version 1.0, 05/19/22
      */
@@ -201,6 +206,10 @@ public class BTService extends Service {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
+
+            }
+            catch (RuntimeException e) {
+                e.printStackTrace();
             }
 
             mmInStream = tmpIn;
@@ -222,7 +231,7 @@ public class BTService extends Service {
                     miIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     //miIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                     miIntent.putExtra("ID", id);
-                    if(isDatosFromDataBase(id)){
+                    if(isDataFromDataBase(id)){
 
                         //getActivity().moveTaskToBack(false);
                         getApplicationContext().startActivity(miIntent);
@@ -234,23 +243,26 @@ public class BTService extends Service {
 
                     break;
                 }
+                catch (RuntimeException e) {
+                    break;
+                }
             }
         }
-        public boolean isDatosFromDataBase(int id) {
+        public boolean isDataFromDataBase(int id) {
             String TABLE_BUTTONS = "t_buttons";
             boolean found = false;
             DBHelper dbHelper = new DBHelper(getBaseContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             Button button = null;
-            Cursor cursorBotones;
+            Cursor cursorButtons;
 
-            cursorBotones = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
+            cursorButtons = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
 
-            if (cursorBotones.moveToFirst()) {
+            if (cursorButtons.moveToFirst()) {
                 found = true;
             }
-            cursorBotones.close();
+            cursorButtons.close();
             db.close();
             return found;
         }

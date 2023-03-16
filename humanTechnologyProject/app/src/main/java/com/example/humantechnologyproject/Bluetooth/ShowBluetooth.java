@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -24,22 +26,22 @@ import com.example.humantechnologyproject.db.DBButtons;
 import java.io.IOException;
 
 /*
-    Pasos:
-        - Metodo de recuperar un único boton
-        - obtener y poner inf con setFields
-        - mirar reproducir musica
-    Tener en cuenta bluetooth:
-        - Cuando se llame a setFields hay que pasarle como parametro el resultado de getBoton a partir del id que se recibirá por bluetoth
+    Steps:
+        - Method to recover one button
+        - obtain and put inf with setFields
+        - check music play
+    Have Bluetooth in mind:
+        - When setFields id called you have to send as parameter the result of getButton
+          by the id received from bluetooth
  */
 
 /**
- * Se recibe desde BTService el id del boton a mostrar y se muestra
+ * Button's Id is received from BTService and its shown
  */
 public class ShowBluetooth extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityShowBluetoothBinding binding;
-    String strLetra;
     int id = 0;
 
     @Override
@@ -55,7 +57,8 @@ public class ShowBluetooth extends AppCompatActivity {
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-        //Recibe el id del boton de btservice:
+
+        //Receives button's id from btservice
         if(savedInstanceState == null){
             Bundle extras = getIntent().getExtras();
             if(extras == null)
@@ -105,12 +108,11 @@ public class ShowBluetooth extends AppCompatActivity {
 
     //volcar los datos de la BD a los campos
     public void setFields(Button button) {
-        ImageView imagen = findViewById(R.id.imagenDB);
-        Uri uriFoto = Uri.parse(button.getImage());
-        imagen.setImageURI(uriFoto);
+        ImageView image = findViewById(R.id.imagenDB);
+        Uri uriPhoto = Uri.parse(button.getImage());
+        image.setImageURI(uriPhoto);
 
-        TextView titulo = findViewById(R.id.tituloDB);
-        titulo.setText("Título: "+button.getTitle());
+        this.setTitle(button.getTitle());
 
         ConstraintLayout cl = (ConstraintLayout) findViewById(R.id.back);
         switch(button.getColor()) {
@@ -128,25 +130,46 @@ public class ShowBluetooth extends AppCompatActivity {
                 break;
         }
 
-        //Reproducir musica:
-        Uri uriAudio = Uri.parse(button.getAudio());
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        String filePath = button.getAudio();
+
+
+        MediaPlayer mp = new MediaPlayer();
+
         try {
-            mediaPlayer.setDataSource(getApplicationContext(), uriAudio);
-            mediaPlayer.prepare();
+            mp.setDataSource(filePath);
+            mp.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mediaPlayer.start();
 
-        //Parar musica al pulsar boton:
-        android.widget.Button bAceptar = findViewById(R.id.bAceptar);
-        bAceptar.setOnClickListener(new View.OnClickListener() {
+        mp.start();
+        mp.setVolume(1f, 1f);
+
+        android.widget.Button bAccept = findViewById(R.id.bAceptar);
+        bAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mediaPlayer.stop();
+                mp.stop();
+                finish();
             }
         });
+        /*
+
+        //Reproducir musica:
+        Uri uriAudio = Uri.parse(button.getAudio());
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uriAudio);
+        r.play();
+
+        //Parar musica al pulsar boton:
+        android.widget.Button bAccept = findViewById(R.id.bAceptar);
+        bAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                r.stop();
+                finish();
+            }
+        });
+                    */
+
     }
 }
