@@ -130,13 +130,12 @@ public class ShowBluetooth extends AppCompatActivity {
                 break;
         }
 
+        //Music:
         String filePath = button.getAudio();
-
-
         MediaPlayer mp = new MediaPlayer();
 
         try {
-            mp.setDataSource(filePath);
+            mp.setDataSource(this, Uri.parse(filePath));
             mp.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -155,7 +154,7 @@ public class ShowBluetooth extends AppCompatActivity {
         });
         /*
 
-        //Reproducir musica:
+
         Uri uriAudio = Uri.parse(button.getAudio());
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uriAudio);
         r.play();

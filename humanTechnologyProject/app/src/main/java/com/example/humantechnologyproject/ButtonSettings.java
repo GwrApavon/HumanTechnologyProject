@@ -247,10 +247,10 @@ public class ButtonSettings extends AppCompatActivity {
                     showAdv = true;
                 }
                 else {
-                    TextView tAudio = (TextView) findViewById(R.id.AudioTime);
-                    tAudio.setVisibility(View.INVISIBLE);
-                    TextView tPantalla = (TextView) findViewById(R.id.ScreenTime);
-                    tPantalla.setVisibility(View.INVISIBLE);
+                    TextView audioT = (TextView) findViewById(R.id.AudioTime);
+                    audioT.setVisibility(View.INVISIBLE);
+                    TextView screenT = (TextView) findViewById(R.id.ScreenTime);
+                    screenT.setVisibility(View.INVISIBLE);
                     showAdv = false;
                 }
             }
@@ -409,7 +409,7 @@ public class ButtonSettings extends AppCompatActivity {
                 audioUri = data.getData();
                 String enlace = "";
                 enlace = data.getDataString();
-                audioPath = data.getDataString();
+                audioPath = enlace;
                 rAudio = (TextView) findViewById(R.id.resultadoAudio);
                 if(!enlace.equals("")) {
                     rAudio.setText("Audio seleccionado");
