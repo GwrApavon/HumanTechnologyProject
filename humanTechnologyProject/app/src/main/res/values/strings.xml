@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SerraAlertas</string>
+    <string name="app_name">SerrAlertas</string>
     <string name="act2_name">Configuración</string>
     <string name="action_info">Info</string>
     <!-- Strings used for fragments for navigation -->
