@@ -165,6 +165,34 @@ public class DBButtons extends DBHelper{
         return button;
     }
 
+    /*
+    Returns a button from the database whose id is the one received as parameter
+ */
+    public Button buttonView(String color) {
+
+        DBHelper dbHelper = new DBHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        Button button = null;
+        Cursor buttonCursor;
+
+        buttonCursor = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE color = " + "\"" +  color + "\"" + " LIMIT 1", null);
+
+        if (buttonCursor.moveToFirst()) {
+            button = new Button();
+            button.setTitle(buttonCursor.getString(1));
+            button.setImage(buttonCursor.getString(2));
+            button.setAudio(buttonCursor.getString(3));
+            button.setColor(buttonCursor.getString(4));
+            button.setScreenTime(buttonCursor.getInt(5));
+            button.setAudioTime(buttonCursor.getInt(6));
+        }
+
+        buttonCursor.close();
+
+        return button;
+    }
+
 
 
 

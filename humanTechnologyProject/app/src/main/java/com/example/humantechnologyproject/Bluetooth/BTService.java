@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,6 +47,7 @@ public class BTService extends Service {
     private ConnectedThread mConnectedThread;
     private String addressMAC;
     public List<String> letters = new ArrayList<>();
+    public HashMap<String, String> letter_color = new HashMap<>();
 
     public BTService() {
     }
@@ -59,6 +61,10 @@ public class BTService extends Service {
         letters.add("C");
         letters.add("E");
         letters.add("G");
+        letter_color.put("A", "Azul");
+        letter_color.put("C", "Rojo");
+        letter_color.put("E", "Amarillo");
+        letter_color.put("G", "Verde");
 
         // Create a notification that opens the app's main screen on click
         Intent notificationIntent = new Intent(this, MainActivity.class);
@@ -225,20 +231,15 @@ public class BTService extends Service {
                 try {
                     bytes = mmInStream.read(buffer);            //read bytes from input buffer
                     String readMessage = new String(buffer, 0, bytes);
-                    int id = letters.indexOf(readMessage)+1;
+                    String color = letter_color.get(readMessage);
                     Intent miIntent = new Intent(getApplicationContext(), ShowBluetooth.class);
                     miIntent.setAction(Intent.ACTION_SCREEN_ON);
                     miIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     //miIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                    miIntent.putExtra("ID", id);
-                    if(isDataFromDataBase(id)){
-
-                        //getActivity().moveTaskToBack(false);
+                    miIntent.putExtra("Color", color);
+                    if(isDataFromDatabase(color)) {
                         getApplicationContext().startActivity(miIntent);
-
                     }
-
-
                 } catch (IOException e) {
 
                     break;
@@ -248,21 +249,21 @@ public class BTService extends Service {
                 }
             }
         }
-        public boolean isDataFromDataBase(int id) {
+        public boolean isDataFromDatabase(String color) {
             String TABLE_BUTTONS = "t_buttons";
-            boolean found = false;
             DBHelper dbHelper = new DBHelper(getBaseContext());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
+            boolean found = false;
 
             Button button = null;
-            Cursor cursorButtons;
+            Cursor buttonCursor;
 
-            cursorButtons = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE id = " + id + " LIMIT 1", null);
+            buttonCursor = db.rawQuery("SELECT * FROM " + TABLE_BUTTONS + " WHERE color = " + "\"" +  color + "\"" + " LIMIT 1", null);
 
-            if (cursorButtons.moveToFirst()) {
+            if (buttonCursor.moveToFirst()) {
                 found = true;
             }
-            cursorButtons.close();
+            buttonCursor.close();
             db.close();
             return found;
         }

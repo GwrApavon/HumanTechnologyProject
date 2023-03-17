@@ -10,6 +10,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -42,7 +43,7 @@ public class ShowBluetooth extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityShowBluetoothBinding binding;
-    int id = 0;
+    String color = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,24 +64,26 @@ public class ShowBluetooth extends AppCompatActivity {
             Bundle extras = getIntent().getExtras();
             if(extras == null)
             {
-                id = Integer.parseInt(null);
+                color = "";
             }
             else
             {
-                id = extras.getInt("ID");
+                color = extras.getString("Color");
             }
         }
         else
         {
-            id = (int) savedInstanceState.getSerializable("ID");
+            color = ""+savedInstanceState.getSerializable("Color");
         }
+        Log.d("btservice", color);
 
         //Obtiene el boton al que corresponde el id enviado:
         DBButtons dbButtons = new DBButtons(ShowBluetooth.this);
-        Button b = dbButtons.buttonView(id);
-        if (id > 0) {
-            setFields(b);
-        }
+        Button b = dbButtons.buttonView(color);
+        //Log.d("btservice", color);
+        //Log.d("btservice", b.toString());
+
+        setFields(b);
     }
 
     @Override
@@ -109,6 +112,7 @@ public class ShowBluetooth extends AppCompatActivity {
     //volcar los datos de la BD a los campos
     public void setFields(Button button) {
         ImageView image = findViewById(R.id.imagenDB);
+        Log.d("btservice", "onCreate");
         Uri uriPhoto = Uri.parse(button.getImage());
         image.setImageURI(uriPhoto);
 

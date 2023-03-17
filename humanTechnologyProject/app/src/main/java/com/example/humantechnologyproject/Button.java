@@ -12,6 +12,7 @@ public class Button {
     public Button() {
 
     }
+
     public Button(String image, String title, String audio, String color) {
         this.image = image;
         this.title = title;
@@ -34,7 +35,6 @@ public class Button {
     public void setColor(String color) {
         this.color = color;
     }
-
 
     public String getTitle() {
         return title;
@@ -71,4 +71,16 @@ public class Button {
     public int getId() { return id;}
 
     public void setId(int id) { this.id = id; }
+    @Override
+    public String toString() {
+        return "Button{" +
+                "id=" + id +
+                ", image='" + image + '\'' +
+                ", title='" + title + '\'' +
+                ", audio='" + audio + '\'' +
+                ", color='" + color + '\'' +
+                ", screenTime=" + screenTime +
+                ", audioTime=" + audioTime +
+                '}';
+    }
 }
