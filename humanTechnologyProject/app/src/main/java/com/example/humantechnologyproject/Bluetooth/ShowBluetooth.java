@@ -156,23 +156,5 @@ public class ShowBluetooth extends AppCompatActivity {
                 finish();
             }
         });
-        /*
-
-
-        Uri uriAudio = Uri.parse(button.getAudio());
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), uriAudio);
-        r.play();
-
-        //Parar musica al pulsar boton:
-        android.widget.Button bAccept = findViewById(R.id.bAceptar);
-        bAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                r.stop();
-                finish();
-            }
-        });
-                    */
-
     }
 }
