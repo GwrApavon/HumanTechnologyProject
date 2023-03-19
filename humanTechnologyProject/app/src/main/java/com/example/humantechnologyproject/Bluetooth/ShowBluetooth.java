@@ -10,6 +10,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -44,6 +45,7 @@ public class ShowBluetooth extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityShowBluetoothBinding binding;
     String color = "";
+    int counter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,5 +158,22 @@ public class ShowBluetooth extends AppCompatActivity {
                 finish();
             }
         });
+
+        new CountDownTimer(button.getAudioTime()* 1000L, 1000){
+            public void onTick(long millisUntilFinished){
+                counter++;
+            }
+            public  void onFinish(){
+                mp.stop();
+            }
+        }.start();
+        new CountDownTimer(button.getScreenTime()* 1000L, 1000){
+            public void onTick(long millisUntilFinished){
+                counter++;
+            }
+            public  void onFinish(){
+                finish();
+            }
+        }.start();
     }
 }
